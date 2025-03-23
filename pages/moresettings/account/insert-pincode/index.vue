@@ -31,6 +31,8 @@ export default class InsertPinCode extends Vue {}
 
 <style lang="scss">
 .insert-pin-code {
+  max-width: 375px;
+  margin: 0 auto;
   padding: 40px 12px 50px;
   position: relative;
   min-height: 100vh;

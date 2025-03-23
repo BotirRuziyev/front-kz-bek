@@ -25,6 +25,7 @@ export default class ChangePasswordPage extends Vue {
 
 <style lang="scss">
 .change-password {
+  max-width: 375px;
   .input {
     input {
       height: 56px;

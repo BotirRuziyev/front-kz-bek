@@ -28,6 +28,8 @@ export default class CreatePinCode extends Vue {}
 
 <style lang="scss">
 .create-pin-code {
+  max-width: 375px;
+  margin: 0 auto;
   padding: 40px 12px 50px;
   position: relative;
   min-height: 100vh;
