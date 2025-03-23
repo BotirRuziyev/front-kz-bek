@@ -308,6 +308,7 @@ export default class AccountPage extends Vue {
         justify-content: space-between;
         padding: 18px 16px;
         border-bottom: 1px solid #1d1c24;
+        cursor: pointer;
 
         &.show {
           .arrown-icon {

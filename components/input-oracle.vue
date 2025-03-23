@@ -160,7 +160,7 @@ export default class InputOracle extends Vue {
   }
 
   get paddingLeft() {
-    return this.search ? '46px' : '10px'
+    return this.search ? '46px' : '12px'
   }
 
   created() {

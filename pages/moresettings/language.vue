@@ -99,6 +99,7 @@ export default class LanguagePage extends Vue {
       align-items: center;
       justify-content: space-between;
       padding-right: 6px;
+      cursor: pointer;
       .left-block {
         display: flex;
         align-items: center;
