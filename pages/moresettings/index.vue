@@ -1,114 +1,23 @@
 <template>
   <div class="more-main">
-    <input-oracle search="true" placeholder="Search..." />
+    <input-oracle
+      search="true"
+      placeholder="Search..."
+      @changed="filterSettings"
+    />
     <div class="more-main__content">
       <ul class="more-settings__list d-flex flex-column">
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/language" class="settings-link">
+        <li
+          v-for="setting in filteredmoreSettins"
+          :key="setting.id"
+          class="list-item border-gradient"
+        >
+          <nuxt-link :to="setting.to" class="settings-link">
             <div class="left-blur"></div>
             <div class="settings-icon">
-              <img :src="require('@/assets/svg/globe.svg')" alt="" />
+              <img :src="setting.img" alt="" />
             </div>
-            LANGUAGE
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/account" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img
-                :src="require('@/assets/svg/paycheck-with-active.svg')"
-                alt=""
-              />
-            </div>
-            ACCOUNT SETTINGS & SECURITY
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/seed-recovery" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/seed-recovery.svg')" alt="" />
-            </div>
-            SEED RECOVERY
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/mycontacts" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/phone.svg')" alt="" />
-            </div>
-            MY CONTACTS
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/addresses" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img
-                :src="require('@/assets/svg/bitcoin-withdrawal.svg')"
-                alt=""
-              />
-            </div>
-            SAVED & FAVOURITE EXTERNAL WITHDRAWALS ADDRESSES
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link
-            to="/moresettings/payment-details-p2p"
-            class="settings-link"
-          >
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/bank-card.svg')" alt="" />
-            </div>
-            SAVED PAYMENT DETAILS FOR P2P
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/tickets" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/ticket.svg')" alt="" />
-            </div>
-            TICKETS
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/fees" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/fees.svg')" alt="" />
-            </div>
-            FEES
-          </nuxt-link>
-        </li>
-        <li class="list-item border-gradient">
-          <a href="#" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/become.svg')" alt="" />
-            </div>
-            BECOME @ORACLEVERIFIED
-          </a>
-        </li>
-        <li class="list-item border-gradient">
-          <a href="#" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/oracle.svg')" alt="" />
-            </div>
-            ORACLEPAY
-          </a>
-        </li>
-        <li class="list-item border-gradient">
-          <nuxt-link to="/moresettings/terms-of-service" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="require('@/assets/svg/document.svg')" alt="" />
-            </div>
-            TERMS OF SERVICE
+            {{ setting.title }}
           </nuxt-link>
         </li>
       </ul>
@@ -179,8 +88,90 @@ import { Component, Vue } from 'nuxt-property-decorator'
   components: {},
 })
 export default class MoreSettingsPage extends Vue {
+  private searchQuery = ''
+
   layout() {
     return 'mobile'
+  }
+
+  private moreSettins = [
+    {
+      id: 1,
+      to: '/moresettings/language',
+      img: require('@/assets/svg/globe.svg'),
+      title: 'LANGUAGE',
+    },
+    {
+      id: 2,
+      to: '/moresettings/account',
+      img: require('@/assets/svg/paycheck-with-active.svg'),
+      title: 'ACCOUNT SETTINGS & SECURITY',
+    },
+    {
+      id: 3,
+      to: '/moresettings/seed-recovery',
+      img: require('@/assets/svg/seed-recovery.svg'),
+      title: 'SEED RECOVERY',
+    },
+    {
+      id: 4,
+      to: '/moresettings/mycontacts',
+      img: require('@/assets/svg/phone.svg'),
+      title: 'MY CONTACTS',
+    },
+    {
+      id: 5,
+      to: '/moresettings/addresses',
+      img: require('@/assets/svg/bitcoin-withdrawal.svg'),
+      title: 'SAVED & FAVOURITE EXTERNAL WITHDRAWALS ADDRESSES',
+    },
+    {
+      id: 6,
+      to: '/moresettings/payment-details-p2p',
+      img: require('@/assets/svg/bank-card.svg'),
+      title: ' SAVED PAYMENT DETAILS FOR P2P',
+    },
+    {
+      id: 7,
+      to: '/moresettings/tickets',
+      img: require('@/assets/svg/ticket.svg'),
+      title: 'TICKETS',
+    },
+    {
+      id: 8,
+      to: '/moresettings/fees',
+      img: require('@/assets/svg/fees.svg'),
+      title: 'FEES',
+    },
+    {
+      id: 9,
+      to: '#',
+      img: require('@/assets/svg/become.svg'),
+      title: 'BECOME @ORACLEVERIFIED',
+    },
+    {
+      id: 10,
+      to: '#',
+      img: require('@/assets/svg/oracle.svg'),
+      title: 'ORACLEPAY',
+    },
+    {
+      id: 11,
+      to: '/moresettings/terms-of-service',
+      img: require('@/assets/svg/document.svg'),
+      title: 'TERMS OF SERVICE',
+    },
+  ]
+
+  private filteredmoreSettins = [...this.moreSettins]
+
+  private filterSettings(value: string): void {
+    this.searchQuery = value
+    console.log(value)
+
+    this.filteredmoreSettins = this.moreSettins.filter((setting) =>
+      setting.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
   }
 }
 </script>
