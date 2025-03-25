@@ -36,7 +36,7 @@
             :scan="true"
             :edit="true"
             :copy="true"
-            placeholder="btc95489159581940fIdfoks30254-0252315241"
+            v="btc95489159581940fIdfoks30254-0252315241"
             @edit="editModal = true"
           />
         </div>

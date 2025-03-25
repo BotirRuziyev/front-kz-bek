@@ -20,6 +20,7 @@
       <input
         v-else
         id="edit"
+        ref="inputField"
         v-model="value"
         :type="computedType"
         :placeholder="placeholder"
@@ -40,7 +41,11 @@
       <label v-if="edit" for="edit" class="input-edit-action">
         <EditIcon @click="$emit('edit', true)" />
       </label>
-      <CopyIcon v-if="copy" class="input-copy-action" />
+      <CopyIcon
+        v-if="copy"
+        class="input-copy-action"
+        @click="copyToClipboard"
+      />
       <ClipboardImport v-if="clipboard" class="input-clipboard-import-action" />
       <CloseIcon v-if="close" class="input-close-action" />
     </div>
@@ -144,6 +149,14 @@ export default class InputOracle extends Vue {
 
   togglePassword() {
     this.isPasswordVisible = !this.isPasswordVisible
+  }
+
+  private copyToClipboard() {
+    const inputElement = this.$refs.inputField as HTMLInputElement
+    if (inputElement) {
+      inputElement.select()
+      document.execCommand('copy')
+    }
   }
 
   @Watch('value')

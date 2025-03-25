@@ -6,7 +6,8 @@
     </p>
     <ul class="seed-recovery-list">
       <li v-for="item in seedrecovery" :key="item.id" class="list-item">
-        {{ item.id }}. {{ item.text }}
+        <span class="item-id">{{ item.id }}.</span>
+        <input-oracle :v="item.text" />
       </li>
     </ul>
     <button-oracle text="verify" color="orange" />
@@ -78,15 +79,22 @@ export default class SeedRecoveryPage extends Vue {
     gap: 11px;
     margin-bottom: 45px;
     .list-item {
+      display: flex;
+      align-items: center;
       background: #1e1d26;
       border-radius: 6px;
       padding: 14px 8px;
+      height: 38px;
       font-family: var(--font3);
       white-space: nowrap;
       font-weight: 700;
       font-size: 14px;
       line-height: 10px;
       color: #fff;
+      input {
+        height: 100%;
+        padding: 0 5px !important;
+      }
     }
   }
   button {

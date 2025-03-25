@@ -101,3 +101,9 @@ button.tgme_widget_login_button,
   left: -10px;
   z-index: 0;
 }
+.nuxt-link-exact-active {
+  display: block !important;
+  text-align: left !important;
+  line-height: normal !important;
+  text-transform: none !important;
+}

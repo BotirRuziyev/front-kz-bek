@@ -1,4 +1,8 @@
 export default {
+  router: {
+    middleware: ['checkPage'],
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'oracle-frontend',
@@ -57,5 +61,5 @@ export default {
   build: {},
   runtimeConfig: {
     TELEGRAM_TOKEN: "7567503159:AAEcvhmFAqvJ4kAMuV76GAZ8gwFtrr2j5hU",
-  }
+  },
 }

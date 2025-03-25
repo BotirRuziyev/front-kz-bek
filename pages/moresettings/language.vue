@@ -1,10 +1,15 @@
 <template>
   <div class="lang-settings">
     <block-nav-back to="/moresettings" text="LANGUAGE" />
-    <input-oracle type="text" :search="true" placeholder="Search..." />
+    <input-oracle
+      type="text"
+      :search="true"
+      placeholder="Search..."
+      @changed="filterLanguages"
+    />
     <ul class="lang-list">
       <li
-        v-for="lang of langs"
+        v-for="lang of filteredLanguages"
         :key="lang.id"
         class="list-item"
         @click="selectLang(lang.id)"
@@ -33,7 +38,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class LanguagePage extends Vue {
-  langs = [
+  private searchQuery = ''
+  private languages = [
     {
       id: 1,
       image: require('@/assets/svg/united-states-flag.svg'),
@@ -72,8 +78,17 @@ export default class LanguagePage extends Vue {
     },
   ]
 
+  private filteredLanguages = [...this.languages]
+
+  private filterLanguages(value: string): void {
+    this.searchQuery = value
+    this.filteredLanguages = this.languages.filter((lang) =>
+      lang.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
+  }
+
   selectLang(id: number) {
-    this.langs = this.langs.map((lang) => ({
+    this.filteredLanguages = this.filteredLanguages.map((lang) => ({
       ...lang,
       selected: lang.id === id,
     }))

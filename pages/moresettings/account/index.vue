@@ -136,34 +136,48 @@
     <div class="active-session">
       <h1 class="block-title">ACTIVE SEssiONS</h1>
       <ul class="active-session__list">
-        <li class="list-item">
-          <div class="left-block">
-            <div class="session-icon">
-              <img :src="require('@/assets/svg/mobile-icon.svg')" alt="" />
+        <li
+          v-for="session in activeSession"
+          :key="session.id"
+          class="list-item"
+        >
+          <div
+            class="accordion-btn"
+            :class="{ show: session.active }"
+            @click="sessionShow(session.id)"
+          >
+            <div class="left-block">
+              <div class="session-icon">
+                <img :src="require('@/assets/svg/mobile-icon.svg')" alt="" />
+              </div>
+              <p class="session-title">{{ session.title }}</p>
             </div>
-            <p class="session-title">iOS - Mobile Safari 17.0</p>
-          </div>
-          <div class="arrown-icon">
-            <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
-          </div>
-        </li>
-        <li class="list-item show">
-          <div class="left-block">
-            <div class="session-icon">
-              <img :src="require('@/assets/svg/mobile-icon.svg')" alt="" />
+            <div class="arrown-icon">
+              <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
             </div>
-            <p class="session-title">iOS - Mobile Safari 17.0</p>
           </div>
-          <div class="arrown-icon">
-            <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+          <div class="terminal-session" :class="{ show: session.active }">
+            <div class="terminal-session-in">
+              <button class="current-session">Current session</button>
+              <button
+                class="terminate-access"
+                @click="terminateAccess(session.id)"
+              >
+                Terminate Access
+              </button>
+            </div>
           </div>
         </li>
-        <li class="list-item terminal-session">
-          <p class="current-session">Current session</p>
-          <p class="terminate-access">Terminate Access</p>
-        </li>
-        <li class="list-item terminate-all-sessions">
-          <p class="terminate-all-sessions__btn">Terminate All the Sessions</p>
+        <li
+          v-if="activeSession.length > 0"
+          class="list-item terminate-all-sessions"
+        >
+          <button
+            class="terminate-all-sessions__btn"
+            @click="activeSession = []"
+          >
+            Terminate All the Sessions
+          </button>
         </li>
       </ul>
     </div>
@@ -178,6 +192,32 @@ export default class AccountPage extends Vue {
 
   layout() {
     return 'mobile'
+  }
+
+  private activeSession = [
+    {
+      id: 1,
+      title: 'iOS - Mobile Safari 17.0',
+      active: false,
+    },
+    {
+      id: 2,
+      title: 'iOS - Mobile Safari 17.0',
+      active: true,
+    },
+  ]
+
+  sessionShow(id: number) {
+    this.activeSession = this.activeSession.map((session) => ({
+      ...session,
+      active: session.id === id ? !session.active : false,
+    }))
+  }
+
+  terminateAccess(id: number) {
+    this.activeSession = this.activeSession.filter(
+      (session) => session.id !== id
+    )
   }
 }
 </script>
@@ -265,6 +305,7 @@ export default class AccountPage extends Vue {
               color: rgba(255, 255, 255, 0.6);
               .info-icon {
                 line-height: 0;
+                cursor: pointer;
               }
             }
           }
@@ -303,34 +344,52 @@ export default class AccountPage extends Vue {
       border-radius: 12px;
       overflow: hidden;
       .list-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 18px 16px;
-        border-bottom: 1px solid #1d1c24;
-        cursor: pointer;
-
-        &.show {
+        .accordion-btn {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px 16px;
+          border-bottom: 1px solid #1d1c24;
+          cursor: pointer;
           .arrown-icon {
-            transform: rotate(-180deg);
+            transition: 0.2s;
+          }
+          &.show {
+            .arrown-icon {
+              transform: rotate(-180deg);
+            }
           }
         }
-        &.terminal-session {
-          .current-session {
-            font-family: var(--font-family);
-            font-weight: 400;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+        .terminal-session {
+          height: 0;
+          overflow: hidden;
+          transition: 0.2s;
+          &.show {
+            height: 53px;
           }
-          .terminate-access {
-            font-family: var(--font-family);
-            font-weight: 400;
-            font-size: 14px;
-            color: #f64e2a;
+          &-in {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 16px;
+            .current-session {
+              font-family: var(--font-family);
+              font-weight: 400;
+              font-size: 14px;
+              color: rgba(255, 255, 255, 0.6);
+            }
+            .terminate-access {
+              font-family: var(--font-family);
+              font-weight: 400;
+              font-size: 14px;
+              color: #f64e2a;
+            }
           }
         }
+
         &.terminate-all-sessions {
           background: rgba(255, 255, 255, 0.05);
+          padding: 18px 16px;
           .terminate-all-sessions__btn {
             width: 100%;
             font-family: var(--font-family);

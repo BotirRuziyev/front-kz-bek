@@ -4,54 +4,49 @@
     <ul class="tickets-list">
       <li class="tickets-item tickets-card border-gradient">
         <div class="left-blur"></div>
-        <div class="card-in">
-          <div class="left-block">
-            <h2 class="card-title">ACTIVE TICKETS</h2>
-            <p class="card-description">Active tickets with Oracle Support</p>
+        <nuxt-link to="/moresettings/tickets/active-tickets">
+          <div class="card-in">
+            <div class="left-block">
+              <h2 class="card-title">ACTIVE TICKETS</h2>
+              <p class="card-description">Active tickets with Oracle Support</p>
+            </div>
+            <button class="active-ticket-btn ticket-btn"></button>
           </div>
-          <nuxt-link
-            to="/moresettings/tickets/active-tickets"
-            class="active-ticket-btn ticket-btn"
-          >
-          </nuxt-link>
-        </div>
+        </nuxt-link>
       </li>
       <li class="tickets-item tickets-card border-gradient">
         <div class="left-blur"></div>
-        <div class="card-in">
-          <div class="left-block">
-            <h2 class="card-title">CLOSED TICKETS</h2>
-            <p class="card-description">
-              Past tickets opened with Oracle Support
-            </p>
+        <nuxt-link to="/moresettings/tickets/closed-tickets">
+          <div class="card-in">
+            <div class="left-block">
+              <h2 class="card-title">CLOSED TICKETS</h2>
+              <p class="card-description">
+                Past tickets opened with Oracle Support
+              </p>
+            </div>
+            <button class="closed-ticket-btn ticket-btn"></button>
           </div>
-          <nuxt-link
-            to="/moresettings/tickets/closed-tickets"
-            class="closed-ticket-btn ticket-btn"
-          >
-          </nuxt-link>
-        </div>
+        </nuxt-link>
       </li>
       <li class="tickets-item tickets-card border-gradient">
         <div class="left-blur"></div>
-        <div class="card-in">
-          <div class="left-block">
-            <h2 class="card-title">OPEN NEW TICKET</h2>
-            <p class="card-description">
-              Chat with Support to create a new <br />
-              ticket for questions or claims
-            </p>
+        <nuxt-link to="/moresettings/tickets/new-ticket">
+          <div class="card-in">
+            <div class="left-block">
+              <h2 class="card-title">OPEN NEW TICKET</h2>
+              <p class="card-description">
+                Chat with Support to create a new <br />
+                ticket for questions or claims
+              </p>
+            </div>
+            <button class="new-ticket-btn ticket-btn">
+              <img
+                :src="require('@/assets/svg/moresettings/add-circle.svg')"
+                alt=""
+              />
+            </button>
           </div>
-          <nuxt-link
-            to="/moresettings/tickets/new-tickets"
-            class="new-ticket-btn ticket-btn"
-          >
-            <img
-              :src="require('@/assets/svg/moresettings/add-circle.svg')"
-              alt=""
-            />
-          </nuxt-link>
-        </div>
+        </nuxt-link>
       </li>
     </ul>
   </div>
