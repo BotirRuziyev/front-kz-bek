@@ -28,12 +28,13 @@
                 <p class="card-description">
                   Recover your account if you <br />
                   forget your password
-                  <span class="info-icon">
+                  <button class="info-icon">
                     <img
                       :src="require('@/assets/svg/info-circle.svg')"
                       alt=""
                     />
-                  </span>
+                    <div class="info-text">Lorem ipsum dolor sit amet.</div>
+                  </button>
                 </p>
               </div>
               <div class="additional-security__status">
@@ -68,12 +69,13 @@
                 <p class="card-description">
                   Log in with one click and enhance <br />
                   your account's security
-                  <span class="info-icon">
+                  <button class="info-icon">
                     <img
                       :src="require('@/assets/svg/info-circle.svg')"
                       alt=""
                     />
-                  </span>
+                    <div class="info-text">Lorem ipsum dolor sit amet.</div>
+                  </button>
                 </p>
               </div>
               <div class="additional-security__status">
@@ -106,12 +108,13 @@
                 <p class="card-description">
                   Protect your funds even if your phone <br />
                   is compromised
-                  <span class="info-icon">
+                  <button class="info-icon">
                     <img
                       :src="require('@/assets/svg/info-circle.svg')"
                       alt=""
                     />
-                  </span>
+                    <div class="info-text">Lorem ipsum dolor sit amet.</div>
+                  </button>
                 </p>
               </div>
               <div class="additional-security__status">
@@ -306,6 +309,45 @@ export default class AccountPage extends Vue {
               .info-icon {
                 line-height: 0;
                 cursor: pointer;
+                position: relative;
+                &:hover {
+                  .info-text {
+                    opacity: 1;
+                    visibility: visible;
+                  }
+                }
+                .info-text {
+                  display: block;
+                  width: 120px;
+                  background: #1e1d26;
+                  position: absolute;
+                  bottom: calc(100% + 10px);
+                  left: 50%;
+                  transform: translateX(-50%);
+                  padding: 3px 5px;
+                  border-radius: 5px;
+                  font-family: var(--font-family);
+                  font-weight: 400;
+                  font-size: 9px;
+                  line-height: 100%;
+                  color: rgba(255, 255, 255, 0.6);
+                  visibility: hidden;
+                  opacity: 0;
+                  transition: 0.2s;
+
+                  &::before {
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                    border-top: 8px solid #1e1d26;
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                  }
+                }
               }
             }
           }
