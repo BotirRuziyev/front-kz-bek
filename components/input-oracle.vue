@@ -26,6 +26,8 @@
         :placeholder="placeholder"
         :style="{ paddingLeft }"
         :readonly="readonly"
+        :disabled="deactivated"
+        @input="onChildChanged"
       />
       <div
         v-if="type === 'password'"
@@ -41,13 +43,20 @@
       <label v-if="edit" for="edit" class="input-edit-action">
         <EditIcon @click="$emit('edit', true)" />
       </label>
+      <UpdateIcon v-if="update" class="input-update-action" />
       <CopyIcon
         v-if="copy"
         class="input-copy-action"
         @click="copyToClipboard"
       />
+      <ShareIcon v-if="share" class="input-share-action" />
       <ClipboardImport v-if="clipboard" class="input-clipboard-import-action" />
-      <CloseIcon v-if="close" class="input-close-action" />
+      <CloseIcon v-if="close" class="input-close-action" @click="value = ''" />
+      <MoneyIcon
+        v-if="moneySend"
+        class="input-money-action"
+        @click="addMoney"
+      />
     </div>
   </div>
 </template>
@@ -71,6 +80,12 @@ import CopyIcon from '@/assets/svg/moresettings/copy.svg?inline'
 import ClipboardImport from '@/assets/svg/moresettings/clipboard-import.svg?inline'
 // @ts-ignore
 import CloseIcon from '@/assets/svg/close-circle.svg?inline'
+// @ts-ignore
+import MoneyIcon from '@/assets/svg/money-send.svg?inline'
+// @ts-ignore
+import UpdateIcon from '@/assets/svg/update.svg?inline'
+// @ts-ignore
+import ShareIcon from '@/assets/svg/share.svg?inline'
 
 @Component({
   components: {
@@ -83,6 +98,9 @@ import CloseIcon from '@/assets/svg/close-circle.svg?inline'
     CopyIcon,
     ClipboardImport,
     CloseIcon,
+    MoneyIcon,
+    UpdateIcon,
+    ShareIcon,
   },
 })
 export default class InputOracle extends Vue {
@@ -91,17 +109,21 @@ export default class InputOracle extends Vue {
   @Prop({ default: '' }) readonly type!: string
   @Prop({ default: '' }) readonly size!: string
   @Prop({ default: '' }) readonly v!: string
+  @Prop({ default: false }) readonly deactivated!: boolean
   @Prop({ default: false }) readonly search!: boolean
   @Prop({ default: false }) readonly readonly!: boolean
   @Prop({ default: false }) readonly ispin!: boolean
   @Prop({ default: false }) readonly edit!: boolean
   @Prop({ default: false }) readonly scan!: boolean
   @Prop({ default: false }) readonly copy!: boolean
+  @Prop({ default: false }) readonly update!: boolean
+  @Prop({ default: false }) readonly share!: boolean
   @Prop({ default: false }) readonly clipboard!: boolean
   @Prop({ default: false }) readonly close!: boolean
+  @Prop({ default: false }) readonly moneySend!: boolean
   @Prop({ default: null }) readonly trashAction?: Function
 
-  value = ''
+  value: string | number = ''
   isPasswordVisible = false
   values: string[] = ['', '', '', '']
   disabled: boolean[] = [false, true, true, true]
@@ -156,6 +178,17 @@ export default class InputOracle extends Vue {
     if (inputElement) {
       inputElement.select()
       document.execCommand('copy')
+    }
+  }
+
+  private addMoney() {
+    if (this.type === 'number') {
+      this.value = 35.51
+    } else {
+      const numValue = Number(this.value)
+      if (!isNaN(numValue)) {
+        this.value = `$${numValue}`
+      }
     }
   }
 
@@ -244,6 +277,20 @@ export default class InputOracle extends Vue {
     right: 12px;
     transform: translateY(-50%);
   }
+  &-update-action {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 77px;
+    transform: translateY(-50%);
+  }
+  &-share-action {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+  }
   &-clipboard-import-action {
     position: absolute;
     cursor: pointer;
@@ -262,6 +309,18 @@ export default class InputOracle extends Vue {
       fill-opacity: 1;
     }
   }
+  &-money-action {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 46px;
+    transform: translateY(-50%);
+    path {
+      fill: #f64e2a;
+    }
+  }
   input {
     box-sizing: border-box;
     padding: 12px;
@@ -269,17 +328,18 @@ export default class InputOracle extends Vue {
     height: 48px;
     background: rgba(29, 29, 41, 0.4);
     border-radius: 8px;
-    font-family: 'Reza Zulmi Alfaizi Sans';
+    font-family: var(--font-family);
     font-weight: 400;
-    color: #ffffff;
+    font-size: 16px;
+    color: #fff;
     border: none;
     outline: none;
 
     &::placeholder {
-      font-family: 'Reza Zulmi Alfaizi Sans';
+      font-family: var(--font-family);
       font-weight: 400;
-      color: #494755;
       font-size: 16px;
+      color: #494755;
     }
   }
   .input-group-in {

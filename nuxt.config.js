@@ -1,6 +1,12 @@
 export default {
   router: {
     middleware: ['checkPage'],
+    extendRoutes(routes, resolve) {
+      routes.push(
+        { path: '/checks/check-creation', redirect: '/checks/check-creation/step-1' },
+        { path: '/checks/check-creation/step-:step(\\d+)', component: resolve(__dirname, 'pages/checks/check-creation/index.vue') }
+      )
+    }
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head

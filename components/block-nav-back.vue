@@ -1,9 +1,11 @@
 <template>
   <div class="block-nav-back">
-    <nuxt-link :to="to" class="back-button">
+    <nuxt-link :to="to" class="back-button" @click.native.stop="$emit('prev')">
       <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
     </nuxt-link>
-    {{ text }}
+    <span>
+      {{ text }}
+    </span>
   </div>
 </template>
 <script lang="ts">
