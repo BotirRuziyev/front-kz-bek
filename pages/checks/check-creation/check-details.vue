@@ -1,17 +1,20 @@
 <template>
   <div class="check-details">
     <div v-if="checks" class="check-details__content">
-      <block-nav-back text="CHECK #902102-2024" @prev="prevStep" />
+      <block-nav-back
+        text="CHECK #902102-2024"
+        to="/checks/check-creation?step=1"
+      />
       <div class="qr-code">
         <img :src="require('@/assets/png/qr-code.png')" alt="" />
       </div>
       <input-oracle
+        :deactivated="true"
         :update="true"
         :copy="true"
         :share="true"
-        v="https://oraclehub.su/check382
-  941940509230950923450-92345
-  -923-050-23403240324095г2390"
+        :v="shareUrl"
+        @shareContent="shareContent"
       />
       <button-oracle
         text="CLAIM THIS CHECK"
@@ -65,10 +68,12 @@
                   EST
                 </li>
               </ul>
-              Do not share this check to anyone unless you want to send funds to
-              them. Anyone can activate this cheak using link or QR code above
             </div>
           </transition>
+          <p class="text">
+            Do not share this check to anyone unless you want to send funds to
+            them. Anyone can activate this cheak using link or QR code above
+          </p>
         </div>
       </div>
     </div>
@@ -113,6 +118,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+
 // @ts-ignore
 import TetHerIcon from '@/assets/svg/tether-usdt.svg?inline'
 // @ts-ignore
@@ -131,8 +137,20 @@ export default class CheckDetailsPage extends Vue {
   checks = true
   status = true
   isOpen = true
+  shareUrl =
+    'https://oraclehub.su/check382941940509230950923450-92345-923-050-23403240324095г2390'
 
-  prevStep() {}
+  async shareContent() {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          url: this.shareUrl,
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
 }
 </script>
 
@@ -259,10 +277,6 @@ export default class CheckDetailsPage extends Vue {
       }
       .accordion-body {
         overflow: hidden;
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
         transition: 0.3s;
         .body-list {
           display: flex;
@@ -277,6 +291,12 @@ export default class CheckDetailsPage extends Vue {
             color: #fff;
           }
         }
+      }
+      .text {
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
       }
     }
   }

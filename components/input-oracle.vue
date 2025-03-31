@@ -49,7 +49,11 @@
         class="input-copy-action"
         @click="copyToClipboard"
       />
-      <ShareIcon v-if="share" class="input-share-action" />
+      <ShareIcon
+        v-if="share"
+        class="input-share-action"
+        @click="$emit('shareContent')"
+      />
       <ClipboardImport v-if="clipboard" class="input-clipboard-import-action" />
       <CloseIcon v-if="close" class="input-close-action" @click="value = ''" />
       <MoneyIcon
@@ -174,10 +178,12 @@ export default class InputOracle extends Vue {
   }
 
   private copyToClipboard() {
-    const inputElement = this.$refs.inputField as HTMLInputElement
-    if (inputElement) {
-      inputElement.select()
+    const input = this.$refs.inputField as HTMLInputElement
+    if (input) {
+      input.removeAttribute('disabled')
+      input.select()
       document.execCommand('copy')
+      input.setAttribute('disabled', 'true')
     }
   }
 
