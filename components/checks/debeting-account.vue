@@ -93,6 +93,8 @@ export default class DebetingAccount extends Vue {
       background: #121119;
       border-radius: 12px;
       padding: 12px;
+      cursor: pointer;
+      user-select: none;
       .coin-img {
         width: 75px;
         height: 68px;

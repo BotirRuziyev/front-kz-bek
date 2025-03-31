@@ -341,6 +341,16 @@ export default class InputOracle extends Vue {
       font-size: 16px;
       color: #494755;
     }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
   }
   .input-group-in {
     max-width: 224px;
