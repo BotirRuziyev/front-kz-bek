@@ -216,6 +216,7 @@ export default class CheckDetailsPage extends Vue {
         justify-content: space-between;
         gap: 15px;
         padding-bottom: 16px;
+        cursor: pointer;
         &.active {
           .arrown-icon {
             transform: rotate(90deg);
