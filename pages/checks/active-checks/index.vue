@@ -10,7 +10,10 @@
     <ul class="active-checks__list">
       <li v-for="item in 5" :key="item" class="list-item border-gradient">
         <div class="left-blur"></div>
-        <nuxt-link to="/checks/check-creation/check-details" class="list-item__container">
+        <nuxt-link
+          to="/checks/check-creation/check-details"
+          class="list-item__container"
+        >
           <h2 class="card-title">Check #902194-2024</h2>
           <p class="card-sum">9 LTC ≈ <span>($ 9,200.15)</span></p>
           <div class="list-item__in">
@@ -115,6 +118,8 @@ export default class ActiveChecks extends Vue {
       &__container {
         display: block;
         padding: 19px 16px;
+        position: relative;
+        z-index: 2;
         .card-title {
           margin-bottom: 12px;
           font-family: var(--second-family);
