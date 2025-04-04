@@ -30,7 +30,7 @@
         </ul>
         <div class="check-details-input">
           <div class="enter-input">
-            <input-oracle type="number" :v="1.902" />
+            <input-oracle type="number" :v="1.902" :deactivated="true" />
             <TetHerIcon class="input-icon" />
           </div>
           <div class="approximately">≈</div>
