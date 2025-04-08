@@ -9,17 +9,18 @@
         <span v-if="selectedItems.length == 0" class="default-value">
           Choose a cryptocurrency
         </span>
-        <span
-          v-for="(name, i) in selectedItems"
-          v-else
-          :key="i"
-          class="selected-values"
-        >
-          {{ name }},
+        <span v-else>
+          <span
+            v-for="(name, i) in selectedItems"
+            :key="i"
+            class="selected-values"
+          >
+            {{ name }}
+          </span>
         </span>
       </div>
       <span class="arrown-icon">
-        <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+        <arrowBackIcon />
       </span>
     </button>
     <div class="select-menu" :class="{ show: isOpen }">
@@ -42,6 +43,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import arrowBackIcon from '@/assets/svg/arrow-back.svg?inline'
 
 interface Item {
   id: number
@@ -50,7 +53,11 @@ interface Item {
   selected: boolean
 }
 
-@Component
+@Component({
+  components: {
+    arrowBackIcon,
+  },
+})
 export default class FormSelect extends Vue {
   @Prop({ default: () => [] }) data!: Item[]
 
@@ -136,7 +143,7 @@ export default class FormSelect extends Vue {
       transform: rotate(-90deg);
       transition: 0.3s;
 
-      img {
+      svg {
         height: 15px;
       }
     }

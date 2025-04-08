@@ -93,7 +93,7 @@
             }
           "
         >
-          <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+          <arrowIcon />
         </button>
         NEW PAYMENT DETAIL
       </div>
@@ -137,8 +137,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import arrowIcon from '@/assets/svg/arrow-back.svg?inline'
 
-@Component
+@Component({
+  components: {
+    arrowIcon,
+  },
+})
 export default class PaymentDetailsP2P extends Vue {
   editModal = false
   deleteModal = false

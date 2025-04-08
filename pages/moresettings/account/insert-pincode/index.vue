@@ -1,11 +1,11 @@
 <template>
   <div class="insert-pin-code">
     <div class="logo">
-      <img :src="require('@/assets/svg/logo.svg')" alt="" />
+      <LogoIcon />
       Oracle
     </div>
     <nuxt-link to="/moresettings/account/" class="close-button">
-      <img :src="require('@/assets/svg/close-circle.svg')" alt="" />
+      <circleCloseIcon />
     </nuxt-link>
     <form class="insert-pin-code-form">
       <block-title-oracle text="INSERT YOUR PIN CODE" />
@@ -24,8 +24,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import LogoIcon from '@/assets/svg/logo.svg?inline'
+// @ts-ignore
+import circleCloseIcon from '@/assets/svg/close-circle.svg?inline'
 
-@Component
+@Component({
+  components: {
+    LogoIcon,
+    circleCloseIcon,
+  },
+})
 export default class InsertPinCode extends Vue {}
 </script>
 
@@ -60,7 +69,7 @@ export default class InsertPinCode extends Vue {}
     text-transform: uppercase;
     text-align: center;
     color: #fff;
-    img {
+    svg {
       height: 80px;
       margin-bottom: 24px;
     }

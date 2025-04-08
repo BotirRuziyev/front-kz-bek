@@ -26,7 +26,7 @@
           </div>
         </div>
         <div v-if="lang.selected" class="selected-icon">
-          <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+          <tickCircleIcon />
         </div>
       </li>
     </ul>
@@ -35,8 +35,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import tickCircleIcon from '@/assets/svg/tick-circle.svg?inline'
 
-@Component
+@Component({
+  components: {
+    tickCircleIcon,
+  },
+})
 export default class LanguagePage extends Vue {
   private searchQuery = ''
   private languages = [

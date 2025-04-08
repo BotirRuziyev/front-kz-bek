@@ -1,7 +1,7 @@
 <template>
   <div class="block-nav-back">
     <nuxt-link :to="to" class="back-button" @click.native.stop="$emit('prev')">
-      <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+      <arrowBackIcon />
     </nuxt-link>
     <span>
       {{ text }}
@@ -10,8 +10,14 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import arrowBackIcon from '@/assets/svg/arrow-back.svg?inline'
 
-@Component
+@Component({
+  components: {
+    arrowBackIcon,
+  },
+})
 export default class BlockNavBack extends Vue {
   @Prop({ default: '' }) readonly text!: string
   @Prop({ default: '' }) readonly to!: string

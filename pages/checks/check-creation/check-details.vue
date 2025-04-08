@@ -49,7 +49,7 @@
               3 of 3 activations left - 0.5 BTC per activation (1.5 BTC total)
             </span>
             <span class="arrown-icon">
-              <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+              <ArrowIcon />
             </span>
           </button>
           <transition name="accordion">
@@ -120,6 +120,8 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 // @ts-ignore
+import ArrowIcon from '@/assets/svg/arrow-back.svg?inline'
+// @ts-ignore
 import TetHerIcon from '@/assets/svg/tether-usdt.svg?inline'
 // @ts-ignore
 import DollorIcon from '@/assets/svg/dollor-convert.svg?inline'
@@ -127,6 +129,7 @@ import DollorIcon from '@/assets/svg/dollor-convert.svg?inline'
   components: {
     TetHerIcon,
     DollorIcon,
+    ArrowIcon,
   },
 })
 export default class CheckDetailsPage extends Vue {

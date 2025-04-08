@@ -29,20 +29,17 @@
                   Recover your account if you <br />
                   forget your password
                   <button class="info-icon">
-                    <img
-                      :src="require('@/assets/svg/info-circle.svg')"
-                      alt=""
-                    />
+                    <infoCircleIcon />
                     <div class="info-text">Lorem ipsum dolor sit amet.</div>
                   </button>
                 </p>
               </div>
               <div class="additional-security__status">
                 <div v-if="!auth" class="status-active">
-                  <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+                  <tickCircleIcon />
                 </div>
                 <div v-else class="status-inactive">
-                  <img :src="require('@/assets/svg/close-circle.svg')" alt="" />
+                  <closeCircleIcon />
                 </div>
               </div>
             </div>
@@ -70,20 +67,17 @@
                   Log in with one click and enhance <br />
                   your account's security
                   <button class="info-icon">
-                    <img
-                      :src="require('@/assets/svg/info-circle.svg')"
-                      alt=""
-                    />
+                    <infoCircleIcon />
                     <div class="info-text">Lorem ipsum dolor sit amet.</div>
                   </button>
                 </p>
               </div>
               <div class="additional-security__status">
                 <div v-if="auth" class="status-active">
-                  <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+                  <tickCircleIcon />
                 </div>
                 <div v-else class="status-inactive">
-                  <img :src="require('@/assets/svg/close-circle.svg')" alt="" />
+                  <closeCircleIcon />
                 </div>
               </div>
             </div>
@@ -109,20 +103,17 @@
                   Protect your funds even if your phone <br />
                   is compromised
                   <button class="info-icon">
-                    <img
-                      :src="require('@/assets/svg/info-circle.svg')"
-                      alt=""
-                    />
+                    <infoCircleIcon />
                     <div class="info-text">Lorem ipsum dolor sit amet.</div>
                   </button>
                 </p>
               </div>
               <div class="additional-security__status">
                 <div v-if="auth" class="status-active">
-                  <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+                  <tickCircleIcon />
                 </div>
                 <div v-else class="status-inactive">
-                  <img :src="require('@/assets/svg/close-circle.svg')" alt="" />
+                  <closeCircleIcon />
                 </div>
               </div>
             </div>
@@ -151,12 +142,12 @@
           >
             <div class="left-block">
               <div class="session-icon">
-                <img :src="require('@/assets/svg/mobile-icon.svg')" alt="" />
+                <mobileIcon />
               </div>
               <p class="session-title">{{ session.title }}</p>
             </div>
             <div class="arrown-icon">
-              <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+              <arrowIcon />
             </div>
           </div>
           <div class="terminal-session" :class="{ show: session.active }">
@@ -189,7 +180,26 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-@Component
+// @ts-ignore
+import infoCircleIcon from '@/assets/svg/info-circle.svg?inline'
+// @ts-ignore
+import tickCircleIcon from '@/assets/svg/tick-circle.svg?inline'
+// @ts-ignore
+import closeCircleIcon from '@/assets/svg/close-circle.svg?inline'
+// @ts-ignore
+import mobileIcon from '@/assets/svg/mobile-icon.svg?inline'
+// @ts-ignore
+import arrowIcon from '@/assets/svg/arrow-back.svg?inline'
+
+@Component({
+  components: {
+    infoCircleIcon,
+    tickCircleIcon,
+    closeCircleIcon,
+    mobileIcon,
+    arrowIcon,
+  },
+})
 export default class AccountPage extends Vue {
   auth = true
 
@@ -353,10 +363,10 @@ export default class AccountPage extends Vue {
           }
           .additional-security__status {
             .status-active {
-              img {
-                filter: brightness(0) saturate(100%) invert(33%) sepia(92%)
-                  saturate(703%) hue-rotate(81deg) brightness(111%)
-                  contrast(87%);
+              svg {
+                path {
+                  fill: #1b961f;
+                }
               }
             }
           }
@@ -462,7 +472,7 @@ export default class AccountPage extends Vue {
           display: flex;
           align-items: center;
           justify-content: center;
-          img {
+          svg {
             transform: rotate(-90deg);
           }
         }

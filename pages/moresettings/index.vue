@@ -28,12 +28,12 @@
             <a href="#" class="contact-link">
               <div class="left-block">
                 <div class="icon">
-                  <img :src="require('@/assets/svg/telegram.svg')" alt="" />
+                  <telegramIcon />
                 </div>
                 Telegram
               </div>
               <div class="arrown-icon">
-                <img :src="require('@/assets/svg/arrow-left.svg')" alt="" />
+                <arrowLeftIcon />
               </div>
             </a>
           </li>
@@ -41,12 +41,12 @@
             <a href="#" class="contact-link">
               <div class="left-block">
                 <div class="icon">
-                  <img :src="require('@/assets/svg/signal.svg')" alt="" />
+                  <signalIcon />
                 </div>
                 Signal
               </div>
               <div class="arrown-icon">
-                <img :src="require('@/assets/svg/arrow-left.svg')" alt="" />
+                <arrowLeftIcon />
               </div>
             </a>
           </li>
@@ -54,12 +54,12 @@
             <a href="#" class="contact-link">
               <div class="left-block">
                 <div class="icon">
-                  <img :src="require('@/assets/svg/whatsapp.svg')" alt="" />
+                  <whatsappIcon />
                 </div>
                 WhatsApp
               </div>
               <div class="arrown-icon">
-                <img :src="require('@/assets/svg/arrow-left.svg')" alt="" />
+                <arrowLeftIcon />
               </div>
             </a>
           </li>
@@ -67,12 +67,12 @@
             <a href="#" class="contact-link">
               <div class="left-block">
                 <div class="icon">
-                  <img :src="require('@/assets/svg/simplex.svg')" alt="" />
+                  <simplexIcon />
                 </div>
                 SimpleX
               </div>
               <div class="arrown-icon">
-                <img :src="require('@/assets/svg/arrow-left.svg')" alt="" />
+                <arrowLeftIcon />
               </div>
             </a>
           </li>
@@ -83,9 +83,25 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import telegramIcon from '@/assets/svg/telegram.svg?inline'
+// @ts-ignore
+import arrowLeftIcon from '@/assets/svg/arrow-left.svg?inline'
+// @ts-ignore
+import signalIcon from '@/assets/svg/signal.svg?inline'
+// @ts-ignore
+import whatsappIcon from '@/assets/svg/whatsapp.svg?inline'
+// @ts-ignore
+import simplexIcon from '@/assets/svg/simplex.svg?inline'
 
 @Component({
-  components: {},
+  components: {
+    telegramIcon,
+    arrowLeftIcon,
+    signalIcon,
+    whatsappIcon,
+    simplexIcon,
+  },
 })
 export default class MoreSettingsPage extends Vue {
   private searchQuery = ''
@@ -328,7 +344,7 @@ export default class MoreSettingsPage extends Vue {
             .contact-link {
               .left-block {
                 .icon {
-                  img {
+                  svg {
                     height: 12px;
                   }
                 }

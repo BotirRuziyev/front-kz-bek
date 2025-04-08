@@ -6,16 +6,13 @@
         class="add-contact"
         @click=";(newcontact = true), $nuxt.$emit('open-modal')"
       >
-        <img
-          :src="require('@/assets/svg/moresettings/add-circle.svg')"
-          alt=""
-        />
+        <addCircleIcon />
       </div>
     </div>
     <input-oracle :search="true" placeholder="Search..." />
     <div class="invite-friends">
       <div class="icon">
-        <img :src="require('@/assets/svg/moresettings/user-add.svg')" alt="" />
+        <userAddIcon />
       </div>
       Invite Friends
     </div>
@@ -55,14 +52,14 @@
             }
           "
         >
-          <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+          <arrowIcon />
         </button>
         NEW CONTACT
       </div>
       <form class="modal-form" @click="(event) => event.preventDefault()">
         <div class="user-info">
           <div class="user-avatar">
-            <img :src="require('@/assets/svg/profile-circle.svg')" alt="" />
+            <profileCircleIcon />
           </div>
           <input-oracle placeholder="Nickname" />
         </div>
@@ -100,7 +97,7 @@
               $nuxt.$emit('open-modal')
           "
         >
-          <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+          <arrowIcon />
         </button>
         Users with a nickname @useruser
       </div>
@@ -127,8 +124,23 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import addCircleIcon from '@/assets/svg/moresettings/add-circle.svg?inline'
+// @ts-ignore
+import userAddIcon from '@/assets/svg/moresettings/user-add.svg?inline'
+// @ts-ignore
+import arrowIcon from '@/assets/svg/arrow-back.svg?inline'
+// @ts-ignore
+import profileCircleIcon from '@/assets/svg/profile-circle.svg?inline'
 
-@Component
+@Component({
+  components: {
+    addCircleIcon,
+    userAddIcon,
+    arrowIcon,
+    profileCircleIcon,
+  },
+})
 export default class MyContactsPage extends Vue {
   fineBy = false
   newcontact = false

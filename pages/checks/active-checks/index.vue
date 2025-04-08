@@ -4,7 +4,7 @@
     <div class="active-checks__filter">
       <select-oracle :data="data" />
       <button class="sortby-btn" @click="isOpen = true">
-        <img :src="require('@/assets/svg/sort-by.svg')" alt="" />
+        <SortByIcon />
       </button>
     </div>
     <ul class="active-checks__list">
@@ -38,10 +38,13 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import SortByModal from '~/components/checks/sort-by-modal.vue'
+// @ts-ignore
+import SortByIcon from '~/assets/svg/sort-by.svg?inline'
 
 @Component({
   components: {
     SortByModal,
+    SortByIcon,
   },
 })
 export default class ActiveChecks extends Vue {
@@ -99,7 +102,7 @@ export default class ActiveChecks extends Vue {
     gap: 16px;
     margin-bottom: 24px;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     .sortby-btn {
       cursor: pointer;
     }

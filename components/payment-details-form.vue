@@ -37,7 +37,7 @@
                 :class="{ more: moreComment }"
                 @click="moreComment = !moreComment"
               >
-                <img :src="require('@/assets/svg/arrow-left.svg')" alt="" />
+                <arrowLeftIcon />
               </button>
               <button class="edit-btn" @click="$emit('edit')">
                 <img
@@ -64,8 +64,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import arrowLeftIcon from '@/assets/svg/arrow-left.svg?inline'
 
-@Component
+@Component({
+  components: {
+    arrowLeftIcon,
+  },
+})
 export default class PaymentDetailsForm extends Vue {
   moreComment = false
 }
@@ -138,16 +144,19 @@ export default class PaymentDetailsForm extends Vue {
             border-radius: 50%;
             background-color: #f64e2a;
             &.more {
-              img {
+              svg {
                 transform: rotate(-90deg);
               }
             }
-            img {
-              filter: brightness(0) saturate(100%) invert(8%) sepia(16%)
-                saturate(858%) hue-rotate(207deg) brightness(97%) contrast(92%);
+            svg {
               height: 12px;
               transform: rotate(90deg);
               transition: 0.2s;
+
+              path {
+                fill: #f64e2a;
+                stroke: #1e1d26;
+              }
             }
           }
         }

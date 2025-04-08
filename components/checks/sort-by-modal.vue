@@ -16,7 +16,7 @@
               @click="amountFilter(item.id)"
             >
               <div class="icon" :class="{ active: item.selected }">
-                <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+                <tickCircleIcon />
               </div>
               {{ item.title }}
             </div>
@@ -32,7 +32,7 @@
               @click="orderFilter(item.id)"
             >
               <div class="icon" :class="{ active: item.selected }">
-                <img :src="require('@/assets/svg/tick-circle.svg')" alt="" />
+                <tickCircleIcon />
               </div>
               {{ item.title }}
             </div>
@@ -46,8 +46,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import tickCircleIcon from '@/assets/svg/tick-circle.svg?inline'
 
-@Component
+@Component({
+  components: {
+    tickCircleIcon,
+  },
+})
 export default class SortByModal extends Vue {
   @Prop({ default: false }) isOpen!: boolean
 
@@ -177,11 +183,11 @@ export default class SortByModal extends Vue {
               display: flex;
               align-items: center;
               justify-content: center;
-              img {
+              svg {
                 display: none;
               }
               &.active {
-                img {
+                svg {
                   display: block;
                 }
               }

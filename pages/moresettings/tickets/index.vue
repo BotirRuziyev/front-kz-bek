@@ -40,10 +40,7 @@
               </p>
             </div>
             <button class="new-ticket-btn ticket-btn">
-              <img
-                :src="require('@/assets/svg/moresettings/add-circle.svg')"
-                alt=""
-              />
+              <addCircleIcon />
             </button>
           </div>
         </nuxt-link>
@@ -54,8 +51,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import addCircleIcon from '@/assets/svg/moresettings/add-circle.svg?inline'
 
-@Component
+@Component({
+  components: {
+    addCircleIcon,
+  },
+})
 export default class TicketsPage extends Vue {
   layout() {
     return 'mobile'
@@ -104,6 +107,11 @@ export default class TicketsPage extends Vue {
           &.new-ticket-btn {
             background: transparent;
             box-shadow: 0 0 10px #eb4b2a;
+            svg {
+              min-width: 18px;
+              min-height: 18px;
+              margin: -0.5px -0.5px 0 0;
+            }
           }
         }
       }

@@ -110,7 +110,7 @@
             }
           "
         >
-          <img :src="require('@/assets/svg/arrow-back.svg')" alt="" />
+          <arrowIcon />
         </button>
         NEW ADDRESS
       </div>
@@ -144,8 +144,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+// @ts-ignore
+import arrowIcon from '@/assets/svg/arrow-back.svg?inline'
 
-@Component
+@Component({
+  components: {
+    arrowIcon,
+  },
+})
 export default class AddressesPage extends Vue {
   wallet = ''
   editModal = false
