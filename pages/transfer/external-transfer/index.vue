@@ -10,7 +10,7 @@
         <ExternalTransferStepOne @nextStep="goToStep(step + 1)" />
       </div>
       <div v-if="step === 2" class="external-transfer__step">
-        <ExternalTransferStepTwo @nextStep="goToStep(step + 1)" />
+        <ExternalTransferStepTwo />
       </div>
     </div>
   </div>
@@ -36,13 +36,13 @@ export default class InternalTransfer extends Vue {
 
   updateStepFromRoute() {
     const stepParam = this.$route.query.step
-    if (stepParam && [1, 2, 3, 4].includes(Number(stepParam))) {
+    if (stepParam && [1, 2].includes(Number(stepParam))) {
       this.step = Number(stepParam)
     }
   }
 
   goToStep(newStep: number) {
-    if (newStep >= 1 && newStep <= 4) {
+    if (newStep >= 1 && newStep <= 2) {
       this.step = newStep
       this.$router.push({ query: { step: String(newStep) } })
     }

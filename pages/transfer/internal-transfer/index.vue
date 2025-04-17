@@ -13,7 +13,7 @@
         <InternalTransferStepTwo @nextStep="goToStep(step + 1)" />
       </div>
       <div v-if="step === 3" class="internal-transfer__step">
-        <InternalTransferStepThree @nextStep="goToStep(step + 1)" />
+        <InternalTransferStepThree />
       </div>
     </div>
   </div>
@@ -41,13 +41,13 @@ export default class InternalTransfer extends Vue {
 
   updateStepFromRoute() {
     const stepParam = this.$route.query.step
-    if (stepParam && [1, 2, 3, 4].includes(Number(stepParam))) {
+    if (stepParam && [1, 2, 3].includes(Number(stepParam))) {
       this.step = Number(stepParam)
     }
   }
 
   goToStep(newStep: number) {
-    if (newStep >= 1 && newStep <= 4) {
+    if (newStep >= 1 && newStep <= 3) {
       this.step = newStep
       this.$router.push({ query: { step: String(newStep) } })
     }

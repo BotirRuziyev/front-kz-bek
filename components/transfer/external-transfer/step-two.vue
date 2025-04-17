@@ -36,6 +36,7 @@
         </div>
         <div class="transaction-summary__confirm">
           <button-oracle
+            to="/transfer/external-transfer?step=2"
             text="Confirm"
             color="orange"
             @click="isConfirm = true"
