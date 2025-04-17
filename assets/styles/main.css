@@ -20,6 +20,17 @@ button {
 html {
   scroll-behavior: smooth;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
 :root {
   --font-family: 'Reza Zulmi Alfaizi Sans', sans-serif;
   --second-family: 'Hanson', sans-serif;
@@ -31,11 +42,95 @@ html {
   --font7: 'Proxima Nova', sans-serif;
 }
 @font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  src: url('~assets/fonts/Roboto/Roboto-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('~assets/fonts/Roboto/Roboto-Bold.eot');
+  src: local('Roboto Bold'), local('Roboto-Bold'),
+    url('~assets/fonts/Roboto/Roboto-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('~assets/fonts/Roboto/Roboto-Bold.woff') format('woff'),
+    url('~assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('~assets/fonts/Roboto/Roboto-Regular.eot');
+  src: local('Roboto'), local('Roboto-Regular'),
+    url('~assets/fonts/Roboto/Roboto-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('~assets/fonts/Roboto/Roboto-Regular.woff') format('woff'),
+    url('~assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('~assets/fonts/Roboto/Roboto-Medium.eot');
+  src: local('Roboto Medium'), local('Roboto-Medium'),
+    url('~assets/fonts/Roboto/Roboto-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('~assets/fonts/Roboto/Roboto-Medium.woff') format('woff'),
+    url('~assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('~assets/fonts/Inter/Inter_24pt-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('~assets/fonts/Inter/Inter_28pt-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('~assets/fonts/Inter/Inter_28pt-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('~assets/fonts/Inter/Inter_28pt-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hector';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('~assets/fonts/hector-regular.otf') format('opentype');
+}
+@font-face {
   font-family: 'Hanson';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
   src: url('~assets/fonts/Hanson-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Gotham';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('~assets/fonts/gotham_bold.otf') format('opentype');
 }
 
 @font-face {
@@ -102,8 +197,12 @@ button.tgme_widget_login_button,
   z-index: 0;
 }
 .nuxt-link-exact-active {
-  display: block !important;
   text-align: left !important;
   line-height: normal !important;
   text-transform: none !important;
+}
+.main-container {
+  padding: 0 16px;
+  max-width: 375px;
+  margin: 0 auto;
 }

@@ -4,7 +4,7 @@
     :class="isVisible ? 'show' : ''"
     @click.self="$emit('close', false)"
   >
-    <div class="modal-content" @click.self="$emit('close', false)">
+    <div class="modal-content">
       <slot></slot>
     </div>
   </div>
@@ -121,6 +121,9 @@ export default class AdressesModal extends Vue {
     padding: 40px 10px;
     height: 100%;
     overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
   }
 }
 </style>

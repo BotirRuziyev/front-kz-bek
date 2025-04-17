@@ -27,8 +27,10 @@
         :style="{ paddingLeft }"
         :readonly="readonly"
         :disabled="deactivated"
+        :class="{ error_input: error }"
         @input="onChildChanged"
       />
+      <span v-if="error" class="error-text">Error text</span>
       <div
         v-if="type === 'password'"
         class="input-eye"
@@ -39,7 +41,7 @@
         <EyeOffIcon v-else />
       </div>
       <TrashIcon v-if="trashAction" class="input-trash-action" />
-      <ScanIcon v-if="scan" class="input-scan-action" />
+      <ScanIcon v-if="internalScan" class="input-scan-action" />
       <label v-if="edit" for="edit" class="input-edit-action">
         <EditIcon @click="$emit('edit', true)" />
       </label>
@@ -56,11 +58,17 @@
       />
       <ClipboardImport v-if="clipboard" class="input-clipboard-import-action" />
       <CloseIcon v-if="close" class="input-close-action" @click="value = ''" />
+      <ClearIcon
+        v-if="internalClear"
+        class="input-clear-action"
+        @click="value = ''"
+      />
       <MoneyIcon
         v-if="moneySend"
         class="input-money-action"
         @click="addMoney"
       />
+      <SavedIcon v-if="internalSaved" class="input-saved-action" />
     </div>
   </div>
 </template>
@@ -85,11 +93,15 @@ import ClipboardImport from '@/assets/svg/moresettings/clipboard-import.svg?inli
 // @ts-ignore
 import CloseIcon from '@/assets/svg/close-circle.svg?inline'
 // @ts-ignore
+import ClearIcon from '@/assets/svg/clear-icon.svg?inline'
+// @ts-ignore
 import MoneyIcon from '@/assets/svg/money-send.svg?inline'
 // @ts-ignore
 import UpdateIcon from '@/assets/svg/update.svg?inline'
 // @ts-ignore
 import ShareIcon from '@/assets/svg/share.svg?inline'
+// @ts-ignore
+import SavedIcon from '@/assets/svg/saved-svg.svg?inline'
 
 @Component({
   components: {
@@ -102,9 +114,11 @@ import ShareIcon from '@/assets/svg/share.svg?inline'
     CopyIcon,
     ClipboardImport,
     CloseIcon,
+    ClearIcon,
     MoneyIcon,
     UpdateIcon,
     ShareIcon,
+    SavedIcon,
   },
 })
 export default class InputOracle extends Vue {
@@ -124,13 +138,20 @@ export default class InputOracle extends Vue {
   @Prop({ default: false }) readonly share!: boolean
   @Prop({ default: false }) readonly clipboard!: boolean
   @Prop({ default: false }) readonly close!: boolean
+  @Prop({ default: false }) readonly clear!: boolean
   @Prop({ default: false }) readonly moneySend!: boolean
+  @Prop({ default: false }) readonly saved!: boolean
+  @Prop({ default: false }) readonly external!: boolean
   @Prop({ default: null }) readonly trashAction?: Function
 
+  error = false
   value: string | number = ''
   isPasswordVisible = false
   values: string[] = ['', '', '', '']
   disabled: boolean[] = [false, true, true, true]
+  private internalClear = this.clear
+  private internalScan = this.scan
+  private internalSaved = this.saved
 
   onInputChange(index: number) {
     if (this.values[index].trim() !== '' && index < 3) {
@@ -200,6 +221,15 @@ export default class InputOracle extends Vue {
 
   @Watch('value')
   onChildChanged() {
+    if (this.value !== '' && this.external) {
+      this.internalScan = false
+      this.internalSaved = false
+      this.internalClear = true
+    } else if (this.external) {
+      this.internalScan = true
+      this.internalSaved = true
+      this.internalClear = false
+    }
     this.$emit('changed', this.value)
   }
 
@@ -315,6 +345,13 @@ export default class InputOracle extends Vue {
       fill-opacity: 1;
     }
   }
+  &-clear-action {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+  }
   &-money-action {
     width: 24px;
     height: 24px;
@@ -326,6 +363,13 @@ export default class InputOracle extends Vue {
     path {
       fill: #f64e2a;
     }
+  }
+  &-saved-action {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 52px;
+    transform: translateY(-50%);
   }
   input {
     box-sizing: border-box;
@@ -357,6 +401,17 @@ export default class InputOracle extends Vue {
     &[type='number'] {
       -moz-appearance: textfield;
     }
+  }
+  .error-text {
+    display: block;
+    position: absolute;
+    top: calc(100% + 5px);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    text-align: center;
+    color: #f64e2a;
   }
   .input-group-in {
     max-width: 224px;

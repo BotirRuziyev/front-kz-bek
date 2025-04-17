@@ -48,7 +48,6 @@ export default class ButtonOracle extends Vue {
   height: 52px;
   border: 2px solid #f64e2a;
   box-shadow: 0 0 10px 2px rgba(246, 78, 42, 0.25);
-
   border-radius: 8px;
   cursor: pointer;
 
