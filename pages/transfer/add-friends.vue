@@ -1,7 +1,7 @@
 <template>
   <div class="add-friends__page">
     <div class="main-container">
-      <block-nav-back to="/transfer/internal-transfer" text="Add Contacts" />
+      <block-nav-back to="/transfer/internal-transfer" text="Add friends" />
       <div class="add-friends__search">
         <input-oracle :search="true" placeholder="Search" :clear="false" />
         <button class="cancel-btn">Cancel</button>
@@ -48,7 +48,7 @@ export default class AddFriends extends Vue {}
 .add-friends__page {
   .block-nav-back {
     text-align: center;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 18px;
     line-height: 140%;
@@ -64,6 +64,7 @@ export default class AddFriends extends Vue {}
     span {
       display: block;
       width: calc(100% - 26px);
+      font-family: 'Inter';
     }
   }
   .input {

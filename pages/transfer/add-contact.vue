@@ -10,11 +10,11 @@
 <style lang="scss">
 .add-contact__page {
   .block-nav-back {
-    text-align: center;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 18px;
     line-height: 140%;
+    text-align: center;
     color: #fff;
     text-transform: capitalize;
     .back-button {
@@ -27,6 +27,7 @@
     span {
       display: block;
       width: calc(100% - 26px);
+      font-family: 'Inter', sans-serif;
     }
   }
   .input {
