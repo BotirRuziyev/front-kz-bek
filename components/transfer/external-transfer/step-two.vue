@@ -95,7 +95,10 @@
             </div>
             <div class="info-bottom">
               <h2 class="coin-promocode">odsj2J9023jklLKD909210321312Das</h2>
-              <button class="save-btn">
+              <button
+                class="save-btn"
+                @click=";(isSave = true), (isConfirm = false)"
+              >
                 <SaveImg />
                 Save
               </button>
