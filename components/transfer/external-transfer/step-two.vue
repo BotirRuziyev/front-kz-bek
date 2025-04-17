@@ -614,7 +614,8 @@ export default class ExternalTransferStepTwo extends Vue {
         flex-direction: column;
         justify-content: end;
         align-items: center;
-        height: calc(100% - 350px);
+        flex: 1 1 100%;
+        padding-bottom: 150px;
         .modal-title {
           margin: 0 0 12px;
           font-family: 'Hector', sans-serif;
