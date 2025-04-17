@@ -58,6 +58,7 @@
         </div>
         <div class="transaction-summary__confirm">
           <button-oracle
+            to="/transfer/internal-transfer?step=3"
             text="Transfer"
             color="orange"
             @click="isConfirm = true"
@@ -371,6 +372,9 @@ export default class InternalTransferStepThree extends Vue {
           color: #fff;
         }
         .border-bottom {
+          width: 100%;
+          display: flex;
+          justify-content: center;
           position: relative;
           &::before,
           &::after {

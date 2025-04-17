@@ -61,11 +61,11 @@
         <div v-for="item of 6" :key="item" class="list-item">
           <label :for="`user` + item" class="list-item__label">
             <input :id="`user` + item" type="checkbox" class="form-input" />
-            <button class="checkbox-button">
+            <label :for="`user` + item" class="checkbox-button">
               <span class="check-icon">
                 <CheckIcon />
               </span>
-            </button>
+            </label>
             <div class="coin-info">
               <div class="coin-img">
                 <img :src="require('@/assets/svg/usdt.svg')" alt="" />
@@ -233,6 +233,7 @@ export default class InternalTransferStepTwo extends Vue {
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
         transition: 0.2s;
         &.active {
           width: 40px;
