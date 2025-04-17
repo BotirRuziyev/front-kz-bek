@@ -20,7 +20,7 @@
             <h4 class="coin-name">Litecoin</h4>
           </div>
         </div>
-        <button class="save-btn">
+        <button class="save-btn" @click="isSave = true">
           <SaveImg />
           Save
         </button>
