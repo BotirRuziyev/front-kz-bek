@@ -1,6 +1,6 @@
 <template>
   <div class="internal-transfer__step-one">
-    <div v-if="state">
+    <div v-if="state" class="internal-transfer__content">
       <input-oracle :search="true" placeholder="Search" />
       <div class="transfer-users">
         <div class="transfer-users__head">
@@ -144,6 +144,11 @@ export default class InternalTransferStepOne extends Vue {
   display: flex;
   flex-direction: column;
   position: relative;
+  .internal-transfer__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+  }
   .input {
     margin-bottom: 24px;
   }
