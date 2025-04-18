@@ -96,7 +96,7 @@ export default class AddFriends extends Vue {}
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
     .cancel-btn {
       font-family: 'Nunito', sans-serif;
       font-weight: 400;
