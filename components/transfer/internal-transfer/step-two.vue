@@ -25,11 +25,15 @@
           <div class="input-coin">
             <div class="form-control">
               <input
-                type="number"
+                v-model="coin"
+                type="text"
                 inputmode="decimal"
                 pattern="[0-9]*[.,]?[0-9]*"
                 placeholder="0.00"
                 class="form-input"
+                @input="coinEvent"
+                @keypress="allowDecimalNumbers"
+                @paste="blockInvalidDecimalPaste"
               />
             </div>
             <h4 class="coin-name">USDT</h4>
@@ -39,11 +43,13 @@
             <div class="form-control">
               <input
                 v-model="dollor"
-                type="number"
+                type="text"
                 inputmode="decimal"
                 pattern="[0-9]*[.,]?[0-9]*"
                 class="form-input"
                 @input="dollorEvent"
+                @keypress="allowDecimalNumbers"
+                @paste="blockInvalidDecimalPaste"
               />
               <div v-if="isFilled" class="input-placeholder">
                 <span>0</span>.00
@@ -66,7 +72,17 @@
           <coin-select name="Litecoin" />
           <div class="input-coin">
             <div class="form-control">
-              <input type="number" class="form-input" placeholder="0.00" />
+              <input
+                v-model="coinConvert"
+                type="text"
+                inputmode="decimal"
+                pattern="[0-9]*[.,]?[0-9]*"
+                class="form-input"
+                placeholder="0.00"
+                @input="coinConvertEvent"
+                @keypress="allowDecimalNumbers"
+                @paste="blockInvalidDecimalPaste"
+              />
             </div>
             <h4 class="coin-name">LTC</h4>
           </div>
@@ -128,6 +144,8 @@ import CheckIcon from '@/assets/svg/check-icon.svg?inline'
 })
 export default class InternalTransferStepTwo extends Vue {
   isOpen = false
+  coin: string = ''
+  coinConvert: string = ''
   dollor: string = ''
   isFilled: boolean = true
 
@@ -151,7 +169,34 @@ export default class InternalTransferStepTwo extends Vue {
   ]
 
   dollorEvent() {
+    this.dollor = this.dollor.replace(',', '.')
     this.isFilled = this.dollor.trim() === ''
+  }
+
+  coinEvent() {
+    this.coin = this.coin.replace(',', '.')
+  }
+
+  coinConvertEvent() {
+    this.coinConvert = this.coinConvert.replace(',', '.')
+  }
+
+  allowDecimalNumbers(event: KeyboardEvent): void {
+    const key = event.key
+    const isNumber = /^\d$/.test(key)
+    const isDot = key === '.' || key === ','
+
+    if (!isNumber && !isDot) {
+      event.preventDefault()
+    }
+  }
+
+  blockInvalidDecimalPaste(event: ClipboardEvent): void {
+    const pasted = event.clipboardData?.getData('text') || ''
+    const cleaned = pasted.replace(',', '.')
+    if (!/^\d*\.?\d*$/.test(cleaned)) {
+      event.preventDefault()
+    }
   }
 }
 </script>

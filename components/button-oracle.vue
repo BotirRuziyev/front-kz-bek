@@ -50,6 +50,7 @@ export default class ButtonOracle extends Vue {
   box-shadow: 0 0 10px 2px rgba(246, 78, 42, 0.25);
   border-radius: 8px;
   cursor: pointer;
+  user-select: none;
 
   span {
     font-family: 'Hanson';
