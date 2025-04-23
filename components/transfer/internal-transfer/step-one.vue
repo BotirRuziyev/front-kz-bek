@@ -1,7 +1,11 @@
 <template>
   <div class="internal-transfer__step-one">
     <div v-if="state" class="internal-transfer__content">
-      <input-oracle :search="true" placeholder="Search" />
+      <input-oracle
+        :search="true"
+        placeholder="Search"
+        @changed="filterUsers"
+      />
       <div class="transfer-users">
         <div class="transfer-users__head">
           <h3 class="send-to__text">Send to</h3>
@@ -11,7 +15,7 @@
           </button>
         </div>
         <ul class="user-list">
-          <li v-for="user of users" :key="user.id" class="user-item">
+          <li v-for="user of filteredUsers" :key="user.id" class="user-item">
             <button class="user-selected__btn" @click="selectUser(user.id)">
               <div class="user-img" :class="{ selected: user.selected }">
                 <img :src="user.img" alt="" />
@@ -58,6 +62,7 @@ import CheckIcon from '@/assets/svg/user-checker.svg?inline'
   },
 })
 export default class InternalTransferStepOne extends Vue {
+  private searchQuery = ''
   selectedUser = false
   state = true
 
@@ -118,17 +123,34 @@ export default class InternalTransferStepOne extends Vue {
     },
   ]
 
+  private filteredUsers = [...this.users]
+
+  private filterUsers(value: string): void {
+    this.searchQuery = value
+    this.filteredUsers = this.users.filter((user) =>
+      user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
+  }
+
   selectUser(userId: number) {
     const clickedUser = this.users.find((user) => user.id === userId)
 
     if (clickedUser?.selected) {
       this.selectedUser = false
+      this.filteredUsers = this.filteredUsers.map((user) => ({
+        ...user,
+        selected: false,
+      }))
       this.users = this.users.map((user) => ({
         ...user,
         selected: false,
       }))
     } else {
       this.selectedUser = true
+      this.filteredUsers = this.filteredUsers.map((user) => ({
+        ...user,
+        selected: user.id === userId,
+      }))
       this.users = this.users.map((user) => ({
         ...user,
         selected: user.id === userId,

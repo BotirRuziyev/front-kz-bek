@@ -24,12 +24,31 @@
           <coin-select name="USDT" price="2500 USDT" amount="2500" />
           <div class="input-coin">
             <div class="form-control">
-              <input type="number" placeholder="0.00" class="form-input" />
+              <input
+                type="number"
+                inputmode="decimal"
+                pattern="[0-9]*[.,]?[0-9]*"
+                placeholder="0.00"
+                class="form-input"
+              />
             </div>
             <h4 class="coin-name">USDT</h4>
           </div>
           <div class="coin-converter__to-usd">
-            <h5 class="to-usd__value">$ 0.<span>00</span></h5>
+            <h5 class="to-usd__value">$</h5>
+            <div class="form-control">
+              <input
+                v-model="dollor"
+                type="number"
+                inputmode="decimal"
+                pattern="[0-9]*[.,]?[0-9]*"
+                class="form-input"
+                @input="dollorEvent"
+              />
+              <div v-if="isFilled" class="input-placeholder">
+                <span>0</span>.00
+              </div>
+            </div>
             <button class="transfer-btn">
               <TransferIcon />
             </button>
@@ -47,7 +66,7 @@
           <coin-select name="Litecoin" />
           <div class="input-coin">
             <div class="form-control">
-              <input type="number" placeholder="0.00" class="form-input" />
+              <input type="number" class="form-input" placeholder="0.00" />
             </div>
             <h4 class="coin-name">LTC</h4>
           </div>
@@ -109,6 +128,8 @@ import CheckIcon from '@/assets/svg/check-icon.svg?inline'
 })
 export default class InternalTransferStepTwo extends Vue {
   isOpen = false
+  dollor: string = ''
+  isFilled: boolean = true
 
   profilInfo = [
     {
@@ -128,6 +149,10 @@ export default class InternalTransferStepTwo extends Vue {
       title: 'P2P Reviews',
     },
   ]
+
+  dollorEvent() {
+    this.isFilled = this.dollor.trim() === ''
+  }
 }
 </script>
 
@@ -195,6 +220,7 @@ export default class InternalTransferStepTwo extends Vue {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 2px;
           .to-usd__value {
             font-family: 'Roboto', sans-serif;
             font-weight: 500;
@@ -203,6 +229,49 @@ export default class InternalTransferStepTwo extends Vue {
             color: rgba(131, 131, 175, 0.8);
             span {
               font-size: 12px;
+            }
+          }
+          .form-control {
+            width: 100%;
+            position: relative;
+            .form-input {
+              width: 100%;
+              height: 40px;
+              position: relative;
+              z-index: 2;
+              background: transparent;
+              padding: 0 20px 0 0;
+              border: none;
+              font-family: 'Roboto', sans-serif;
+              font-weight: 500;
+              font-size: 16px;
+              line-height: 120%;
+              color: #fff;
+              &:focus {
+                outline: none;
+              }
+              &::placeholder {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 12px;
+                text-transform: capitalize;
+                line-height: 120%;
+                color: #7a74ba;
+              }
+            }
+            .input-placeholder {
+              position: absolute;
+              top: 50%;
+              left: 0;
+              transform: translateY(-50%);
+              font-family: 'Roboto', sans-serif;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 120%;
+              color: rgba(131, 131, 175, 0.8);
+              span {
+                font-size: 16px;
+              }
             }
           }
         }
