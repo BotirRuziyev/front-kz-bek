@@ -80,7 +80,7 @@ export default class InternalTransfer extends Vue {
   }
   .block-nav-back {
     text-align: center;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 18px;
     line-height: 140%;

@@ -25,15 +25,13 @@
       <input
         ref="amountInput"
         v-model="amount"
-        type="text"
+        type="number"
         inputmode="decimal"
         pattern="[0-9]*[.,]?[0-9]*"
         placeholder="0.00"
         class="form-input"
         :class="{ error_input: errorInput }"
         @input="updateAmount()"
-        @keypress="allowDecimalNumbers"
-        @paste="blockInvalidDecimalPaste"
       />
       <span v-if="errorInput" class="error-text">Insufficient funds</span>
     </div>
