@@ -31,7 +31,7 @@
         placeholder="0.00"
         class="form-input"
         :class="{ error_input: errorInput }"
-        @input="updateAmount()"
+        @input="updateAmount"
         @keypress="allowDecimalNumbers"
         @paste="blockInvalidDecimalPaste"
       />
@@ -180,10 +180,7 @@ export default class ExternalTransferStepOne extends Vue {
   }
 
   updateAmount() {
-    // const input = this.$refs.amountInput as HTMLInputElement
-    // if (input) {
-    //   input.focus()
-    // }
+    this.amount = this.amount.replace(',', '.')
     this.errorInput =
       (Number(this.amount) < 1 || Number(this.amount) > 2999) &&
       this.amount !== ''
