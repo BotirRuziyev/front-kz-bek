@@ -58,6 +58,9 @@
         @mousedown="startDeleting"
         @mouseup="stopDeleting"
         @mouseleave="stopDeleting"
+        @touchstart="startDeleting"
+        @touchend="stopDeleting"
+        @touchcancel="stopDeleting"
       >
         <ClearIcon />
       </button>
@@ -115,15 +118,19 @@ export default class ExternalTransferStepOne extends Vue {
   allowDecimalNumbers(event: KeyboardEvent): void {
     const key = event.key
     const isNumber = /^\d$/.test(key)
-    const isDot = key === '.'
-    if (!isNumber && !(isDot && !this.amount.includes('.'))) {
+    const isDot = key === '.' || key === ','
+    const alreadyHasDecimal =
+      this.amount.includes('.') || this.amount.includes(',')
+
+    if (!isNumber && !(isDot && !alreadyHasDecimal)) {
       event.preventDefault()
     }
   }
 
   blockInvalidDecimalPaste(event: ClipboardEvent): void {
     const pasted = event.clipboardData?.getData('text') || ''
-    if (!/^\d*\.?\d*$/.test(pasted)) {
+    const cleaned = pasted.replace(',', '.')
+    if (!/^\d*\.?\d*$/.test(cleaned)) {
       event.preventDefault()
     }
   }
