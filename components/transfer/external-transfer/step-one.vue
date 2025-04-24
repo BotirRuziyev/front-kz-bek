@@ -26,12 +26,12 @@
         ref="amountInput"
         v-model="amount"
         type="text"
-        inputmode="numeric"
-        pattern="[0-9]*"
+        inputmode="decimal"
+        pattern="[0-9]*[.,]?[0-9]*"
         placeholder="0.00"
         class="form-input"
         :class="{ error_input: errorInput }"
-        @input="updateAmount()"
+        @input="updateAmount"
         @keypress="allowDecimalNumbers"
         @paste="blockInvalidDecimalPaste"
       />
@@ -58,6 +58,9 @@
         @mousedown="startDeleting"
         @mouseup="stopDeleting"
         @mouseleave="stopDeleting"
+        @touchstart="startDeleting"
+        @touchend="stopDeleting"
+        @touchcancel="stopDeleting"
       >
         <ClearIcon />
       </button>
@@ -101,6 +104,7 @@ export default class ExternalTransferStepOne extends Vue {
   addressSelected = false
   errorInput = false
   amount: string = ''
+  previousAmount: string = ''
   deleteInterval: number | null = null
 
   mounted() {
@@ -114,17 +118,19 @@ export default class ExternalTransferStepOne extends Vue {
   allowDecimalNumbers(event: KeyboardEvent): void {
     const key = event.key
     const isNumber = /^\d$/.test(key)
-    const isDot = key === '.'
-    // Faqat bitta '.' bo'lishiga ruxsat beramiz
-    if (!isNumber && !(isDot && !this.amount.includes('.'))) {
+    const isDot = key === '.' || key === ','
+    const alreadyHasDecimal =
+      this.amount.includes('.') || this.amount.includes(',')
+
+    if (!isNumber && !(isDot && !alreadyHasDecimal)) {
       event.preventDefault()
     }
   }
 
   blockInvalidDecimalPaste(event: ClipboardEvent): void {
     const pasted = event.clipboardData?.getData('text') || ''
-    // Faqat raqamlar va faqat bitta '.' ruxsat
-    if (!/^\d*\.?\d*$/.test(pasted)) {
+    const cleaned = pasted.replace(',', '.')
+    if (!/^\d*\.?\d*$/.test(cleaned)) {
       event.preventDefault()
     }
   }
@@ -135,9 +141,7 @@ export default class ExternalTransferStepOne extends Vue {
   }
 
   appendNumber(num: string): void {
-    if (Number(this.amount) < 2999) {
-      this.amount += num
-    }
+    this.amount += num
     this.updateAmount()
   }
 
@@ -148,7 +152,11 @@ export default class ExternalTransferStepOne extends Vue {
 
   deleteOnce(): void {
     if (this.amount.length > 0) {
-      this.amount = this.amount.slice(0, -1)
+      if (this.amount.endsWith('.') && /^\d+\.$/.test(this.amount)) {
+        this.amount = this.amount.slice(0, -1)
+      } else {
+        this.amount = this.amount.slice(0, -1)
+      }
     }
     this.updateAmount()
   }
@@ -172,10 +180,7 @@ export default class ExternalTransferStepOne extends Vue {
   }
 
   updateAmount() {
-    const input = this.$refs.amountInput as HTMLInputElement
-    if (input) {
-      input.focus()
-    }
+    this.amount = this.amount.replace(',', '.')
     this.errorInput =
       (Number(this.amount) < 1 || Number(this.amount) > 2999) &&
       this.amount !== ''
