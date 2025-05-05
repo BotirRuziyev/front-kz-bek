@@ -301,6 +301,7 @@ export default class DraggableModal extends Vue {
           width: 18px;
           height: 18px;
           border-radius: 4px;
+          border-radius: 50%;
           &::after {
             width: 10px;
             height: 10px;
@@ -337,7 +338,7 @@ export default class DraggableModal extends Vue {
                 min-width: 18px;
                 width: 18px;
                 height: 18px;
-                border-radius: 4px;
+                border-radius: 50%;
 
                 &::after {
                   width: 10px;
