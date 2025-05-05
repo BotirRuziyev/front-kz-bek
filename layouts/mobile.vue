@@ -30,12 +30,12 @@ export default class MobileLayout extends Vue {
 body {
   margin: 0;
   padding: 0;
-  background-color: #0a090f;
+  background: #000;
 }
 
 .mobile {
   color: #fff;
-  padding: 10px;
+  padding: 0 16px;
   max-width: 375px;
   margin: 0 auto;
   padding-top: 75px;

@@ -6,21 +6,36 @@
     <span>
       {{ text }}
     </span>
+    <button v-if="more" class="more-btn">
+      <MoreIcon />
+    </button>
+    <nuxt-link v-if="add" :to="addto" class="add-btn">
+      <AddIcon />
+    </nuxt-link>
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 // @ts-ignore
 import arrowBackIcon from '@/assets/svg/arrow-back.svg?inline'
+// @ts-ignore
+import MoreIcon from '@/assets/svg/more-horizontal.svg?inline'
+// @ts-ignore
+import AddIcon from '@/assets/svg/add-icon.svg?inline'
 
 @Component({
   components: {
     arrowBackIcon,
+    MoreIcon,
+    AddIcon,
   },
 })
 export default class BlockNavBack extends Vue {
   @Prop({ default: '' }) readonly text!: string
   @Prop({ default: '' }) readonly to!: string
+  @Prop({ default: '' }) readonly addto!: string
+  @Prop({ default: false }) readonly more!: string
+  @Prop({ default: false }) readonly add!: string
 }
 </script>
 <style lang="scss" scoped>
@@ -28,11 +43,12 @@ export default class BlockNavBack extends Vue {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 18px 0;
-  font-family: var(--second-family);
-  font-weight: 700;
-  font-size: 16px;
-  text-transform: uppercase;
+  padding: 8px 0;
+  margin-bottom: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 140%;
   color: #fff;
   .back-button {
     min-width: 22px;
@@ -43,6 +59,15 @@ export default class BlockNavBack extends Vue {
     background: transparent;
     border: 0;
     box-shadow: none;
+    svg {
+      path {
+        stroke: #fff;
+      }
+    }
+  }
+  span {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

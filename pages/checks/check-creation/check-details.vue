@@ -1,6 +1,6 @@
 <template>
   <div class="check-details">
-    <div v-if="checks" class="check-details__content">
+    <div class="check-details__content">
       <block-nav-back
         text="CHECK #902102-2024"
         to="/checks/check-creation?step=1"
@@ -10,44 +10,36 @@
       </div>
       <input-oracle
         :deactivated="true"
-        :update="true"
         :copy="true"
         :share="true"
         :v="shareUrl"
         @shareContent="shareContent"
       />
-      <button-oracle
-        text="CLAIM THIS CHECK"
-        color="orange"
-        @click=";(status = true), (checks = false)"
-      />
-      <div class="check-details__info">
-        <ul class="info-list">
-          <li class="list-item">Created at: 12 Dec 2024 9:35 PM</li>
-          <li class="list-item">
-            Expires on: <span>12 Dec 2025 9:35 PM</span>
-          </li>
-        </ul>
-        <div class="check-details-input">
-          <div class="enter-input">
-            <input-oracle type="number" :v="1.902" :deactivated="true" />
-            <TetHerIcon class="input-icon" />
+      <div class="total-ammount">
+        <h5 class="total-ammount__title">Total ammount</h5>
+        <h3 class="ammount-coin">
+          100 USDT <span class="coin-covert">≈ $98.98</span>
+        </h3>
+        <div class="activation-details">
+          <div class="activation-labels">
+            <p class="label">Remaining Activations</p>
+            <p class="label">Per activation</p>
           </div>
-          <div class="approximately">≈</div>
-          <div class="result-input">
-            <input-oracle type="number" :v="1901.153" :deactivated="true" />
-            <DollorIcon class="input-icon" />
+
+          <div class="activation-values">
+            <p class="remaining-count">5 of 10</p>
+            <p class="per-activation">0.5 BTC <span>≈ $35 000</span></p>
           </div>
         </div>
+      </div>
+      <div class="check-details__info">
         <div class="check-details__accordion">
           <button
             class="accordion-btn"
             :class="{ active: isOpen }"
             @click="isOpen = !isOpen"
           >
-            <span>
-              3 of 3 activations left - 0.5 BTC per activation (1.5 BTC total)
-            </span>
+            <span> Activation history </span>
             <span class="arrown-icon">
               <ArrowIcon />
             </span>
@@ -55,63 +47,28 @@
           <transition name="accordion">
             <div v-show="isOpen" class="accordion-body">
               <ul class="body-list">
-                <li class="list-item">
-                  1st Activation Claimed 12 Dec, 2024 by @UserUser at 9:14 PM
-                  EST
-                </li>
-                <li class="list-item">
-                  2nd Activation Claimed 12 Dec, 2024 by @UserUser at 9:14 PM
-                  EST
-                </li>
-                <li class="list-item">
-                  3rd Activation Claimed 12 Dec, 2024 by @UserUser at 9:14 PM
-                  EST
+                <li v-for="item in 3" :key="item" class="list-item">
+                  <div class="list-item__head">
+                    <p class="list-num">{{ item }}</p>
+                    <div class="user-img">
+                      <img src="@/assets/png/zaglushka.png" alt="" />
+                    </div>
+                    <h3 class="user-name">Barbara Martinez</h3>
+                    <div class="right-block">
+                      <p class="coin-amound">0,0244 LTC</p>
+                      <p class="coin-convert">≈ 100.234$</p>
+                    </div>
+                  </div>
+                  <p class="create-date">Dec 12, 2025 at 12:32 AM</p>
                 </li>
               </ul>
             </div>
           </transition>
-          <p class="text">
-            Do not share this check to anyone unless you want to send funds to
-            them. Anyone can activate this cheak using link or QR code above
-          </p>
         </div>
       </div>
-    </div>
-    <div v-if="status && !checks" class="checks-status">
-      <div class="checks-status-content">
-        <p class="activations">3 activations</p>
-        <h4 class="checks-status-title">CHECK #902102-2024 was CLAIMED!</h4>
-        <div class="checks-img">
-          <img :src="require('@/assets/png/success.png')" alt="" />
-        </div>
-        <div class="exchange">
-          <div class="exchange-head">
-            <p class="cripto-name">1.902 USDT</p>
-            <p class="cripto-description">
-              3 of 3 activations left - 1.902 USDT per activation (2.6 USDT
-              total)
-            </p>
-          </div>
-        </div>
+      <div class="check-details__botton">
+        <new-oracle-button text="Claim Check (0.5 BTC)" color="yellow" />
       </div>
-      <button-oracle
-        text="BACK"
-        color="orange"
-        @click=";(status = true), (checks = true)"
-      />
-    </div>
-    <div v-else-if="!status && !checks" class="checks-status">
-      <div class="checks-status-content">
-        <h4 class="checks-status-title">this CHECK was already CLAIMED!</h4>
-        <div class="checks-img">
-          <img :src="require('@/assets/png/error.png')" alt="" />
-        </div>
-      </div>
-      <button-oracle
-        text="BACK"
-        color="orange"
-        @click=";(status = true), (checks = true)"
-      />
     </div>
   </div>
 </template>
@@ -133,12 +90,8 @@ import DollorIcon from '@/assets/svg/dollor-convert.svg?inline'
   },
 })
 export default class CheckDetailsPage extends Vue {
-  layout() {
-    return 'mobile'
-  }
-
-  checks = true
-  status = true
+  checks = false
+  status = false
   isOpen = true
   shareUrl =
     'https://oraclehub.su/check382941940509230950923450-92345-923-050-23403240324095г2390'
@@ -159,6 +112,13 @@ export default class CheckDetailsPage extends Vue {
 
 <style lang="scss">
 .check-details {
+  max-width: 375px;
+  margin: 0 auto;
+  min-height: calc(100vh);
+  padding: 0 16px 80px;
+  .block-nav-back {
+    margin-bottom: 24px;
+  }
   .qr-code {
     max-width: 266px;
     width: 100%;
@@ -168,70 +128,99 @@ export default class CheckDetailsPage extends Vue {
     padding: 10px;
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
   }
   .input {
     margin-bottom: 30px;
     input {
-      padding-right: 113px;
+      padding-right: 82px;
       text-overflow: ellipsis;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      color: #fff;
     }
-    &-copy-action {
-      right: 43px;
+    &-copy-action,
+    &-share-action {
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      background: #1e1d28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 44px;
+    }
+    &-share-action {
+      right: 4px;
     }
   }
   .button_oracle {
     margin-bottom: 24px;
   }
-  &__info {
-    .info-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-      .list-item {
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 14px;
-        text-transform: uppercase;
-        color: #fff;
-        span {
-          color: #a50e0e;
-        }
-      }
+  .total-ammount {
+    margin-bottom: 24px;
+    &__title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 135%;
+      color: #7a74ba;
     }
-    .check-details-input {
+    .ammount-coin {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
-      .approximately {
-        font-family: var(--font-family);
+      margin-bottom: 12px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 140%;
+      color: #fff;
+      .coin-covert {
+        font-family: 'Roboto', sans-serif;
         font-weight: 400;
-        font-size: 24px;
-        line-height: 100%;
+        font-size: 14px;
+        line-height: 130%;
         color: #fff;
       }
-      .enter-input,
-      .result-input {
-        position: relative;
-        .input {
-          margin-bottom: 0;
-          input {
-            padding: 16px 40px 16px 14px;
-          }
+    }
+    .activation-details {
+      .activation-labels {
+        display: flex;
+        font-family: 'Inter', sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 130%;
+        color: #fff;
+        .label {
+          flex: 1 1 50%;
         }
-        .input-icon {
-          position: absolute;
-          right: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 2;
+      }
+      .activation-values {
+        display: flex;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
+        color: #fff;
+        .remaining-count,
+        .per-activation {
+          flex: 1 1 50%;
+          span {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 140%;
+          }
         }
       }
     }
+  }
+  &__info {
     .check-details__accordion {
       .accordion-btn {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -244,9 +233,10 @@ export default class CheckDetailsPage extends Vue {
           }
         }
         span {
-          font-family: var(--third-family);
-          font-weight: 400;
-          font-size: 18px;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 140%;
           color: #fff;
         }
         .arrown-icon {
@@ -279,28 +269,92 @@ export default class CheckDetailsPage extends Vue {
         opacity: 1;
       }
       .accordion-body {
+        width: calc(100% + 32px);
+        margin-left: -16px;
         overflow: hidden;
         transition: 0.3s;
         .body-list {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          margin-bottom: 18px;
           .list-item {
-            font-family: var(--font-family);
-            font-weight: 400;
-            font-size: 11px;
-            line-height: 8px;
-            color: #fff;
+            border-bottom: 1px solid #2b2741;
+            padding: 8px 16px;
+            &__head {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              margin-bottom: 14px;
+              .list-num {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 140%;
+                color: #fff;
+              }
+              .user-img {
+                border-radius: 50%;
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                min-height: 32px;
+                overflow: hidden;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                }
+              }
+              .user-name {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 130%;
+                color: #fff;
+              }
+              .coin-amound {
+                white-space: nowrap;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 130%;
+                text-align: right;
+                color: #fff;
+              }
+              .coin-convert {
+                white-space: nowrap;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 135%;
+                text-align: right;
+                color: #b2aaf9;
+              }
+            }
+            .create-date {
+              padding-left: 24px;
+              font-family: 'Roboto', sans-serif;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 135%;
+              color: #7a74ba;
+            }
           }
         }
       }
-      .text {
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
+    }
+  }
+  &__botton {
+    width: 100%;
+    background: #000;
+    padding: 12px 20px 24px 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    .new-oracle-button {
+      border-radius: 14px;
+      padding: 11px 16px;
+      line-height: 22px;
     }
   }
 
@@ -350,7 +404,7 @@ export default class CheckDetailsPage extends Vue {
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      font-family: var(--second-family);
+      font-family: 'Roboto', sans-serif;
       font-weight: 700;
       font-size: 16px;
       line-height: 160%;

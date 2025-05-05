@@ -55,10 +55,9 @@ input[type='number'] {
       format('embedded-opentype'),
     url('~assets/fonts/Roboto/Roboto-Bold.woff') format('woff'),
     url('~assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
 }
-
 @font-face {
   font-family: 'Roboto';
   src: url('~assets/fonts/Roboto/Roboto-Regular.eot');
@@ -67,10 +66,9 @@ input[type='number'] {
       format('embedded-opentype'),
     url('~assets/fonts/Roboto/Roboto-Regular.woff') format('woff'),
     url('~assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
 }
-
 @font-face {
   font-family: 'Roboto';
   src: url('~assets/fonts/Roboto/Roboto-Medium.eot');
@@ -82,7 +80,6 @@ input[type='number'] {
   font-weight: 500;
   font-style: normal;
 }
-
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -132,7 +129,6 @@ input[type='number'] {
   font-display: swap;
   src: url('~assets/fonts/gotham_bold.otf') format('opentype');
 }
-
 @font-face {
   font-family: 'Reza Zulmi Alfaizi Sans';
   font-style: normal;
@@ -140,7 +136,6 @@ input[type='number'] {
   font-display: swap;
   src: url('~assets/fonts/RezaZulmiSans.ttf') format('truetype');
 }
-
 @font-face {
   font-family: 'Druk Text Wide Cyr';
   font-style: normal;
@@ -148,13 +143,26 @@ input[type='number'] {
   font-display: swap;
   src: url('~assets/fonts/DrukCyr-Bold.ttf') format('truetype');
 }
-
 @font-face {
   font-family: 'Kenyan Coffee';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url('~assets/fonts/kenyan coffee rg.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('~assets/fonts/Nunito-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('~assets/fonts/Nunito-SemiBold.ttf') format('truetype');
 }
 
 /* font-family: 'Druk Text Wide Cyr'; */

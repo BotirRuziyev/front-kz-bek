@@ -1,9 +1,6 @@
 <template>
   <div class="debeting-account">
-    <block-nav-back
-      to="/checks"
-      text="CHOOSE AN ACCOUNT FOR A CHECK CREATION"
-    />
+    <block-nav-back to="/checks" text="Check Creation" />
     <ul class="coins-list">
       <li
         v-for="coin in coins"

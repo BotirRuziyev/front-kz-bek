@@ -156,8 +156,8 @@ export default class DraggableModal extends Vue {
     overflow-x: hidden;
     margin: 0 auto;
     background: #121119;
-    border-radius: 8px 8px 0 0;
-    padding: 0 10px 24px;
+    border-radius: 30px 30px 0 0;
+    padding: 0 16px 24px;
     transform: translateY(100%) !important;
     transition: 0.3s;
     &__in {
@@ -170,7 +170,7 @@ export default class DraggableModal extends Vue {
     }
     .drag-handle-container {
       width: calc(100% + 20px);
-      padding: 14px 0;
+      padding: 12px 0 24px;
       margin-left: -10px;
       background: #121119;
       cursor: grab;
@@ -179,10 +179,10 @@ export default class DraggableModal extends Vue {
       z-index: 2;
     }
     .drag-handle {
-      border-radius: 100px;
-      width: 52px;
-      height: 6px;
-      background: #2a2937;
+      border-radius: 10px;
+      width: 32px;
+      height: 4px;
+      background: #7a74ba;
       margin: 0 auto;
     }
     .modal-head {
@@ -254,6 +254,140 @@ export default class DraggableModal extends Vue {
       }
       .user-name {
         margin-bottom: 24px;
+      }
+    }
+  }
+  &.filter-modal {
+    user-select: none;
+    .draggable-modal-content {
+      border-radius: 30px 30px 0 0;
+      &__in {
+        min-height: calc(100% - 44px);
+      }
+      .drag-handle-container {
+        margin-bottom: 10px;
+      }
+    }
+    .modal-title {
+      margin-bottom: 15px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      color: #fff;
+    }
+    .select-all {
+      width: calc(100% + 32px);
+      margin-left: -16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid #282632;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 120%;
+      color: #fff;
+      .form-checkbox {
+        padding: 0;
+        input {
+          &:checked + span {
+            background: #f64e2a;
+          }
+        }
+        span {
+          min-width: 18px;
+          width: 18px;
+          height: 18px;
+          border-radius: 4px;
+          &::after {
+            width: 10px;
+            height: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 0;
+          }
+        }
+      }
+    }
+    .cripto-list {
+      .list-item {
+        width: calc(100% + 32px);
+        margin-left: -16px;
+        .cripto-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border-bottom: 1px solid #282632;
+          padding: 11px 16px;
+          cursor: pointer;
+          .form-control {
+            margin-right: 4px;
+            .form-checkbox {
+              padding: 0;
+              input {
+                &:checked + span {
+                  background: #f64e2a;
+                }
+              }
+              span {
+                min-width: 18px;
+                width: 18px;
+                height: 18px;
+                border-radius: 4px;
+
+                &::after {
+                  width: 10px;
+                  height: 10px;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  line-height: 0;
+                }
+              }
+            }
+          }
+          .right-block {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            .icon {
+              img {
+                width: 28px;
+                height: 28px;
+              }
+            }
+            .coin-body {
+              width: 100%;
+              .body-head,
+              .body-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .cripto-name,
+                .cripto-amound {
+                  font-family: 'Roboto', sans-serif;
+                  font-weight: 400;
+                  font-size: 14px;
+                  line-height: 120%;
+                  color: #fff;
+                }
+                .cripto-card,
+                .cripto-price {
+                  font-family: 'Roboto', sans-serif;
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: 135%;
+                  color: #7a74ba;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

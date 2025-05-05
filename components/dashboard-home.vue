@@ -1,5 +1,5 @@
 <template>
-  <div class="home-block">
+  <div class="dashboard-home__block">
     <ul class="home-cards">
       <li v-for="card of crads" :key="card.id" class="card-item">
         <div class="card-img">
@@ -15,7 +15,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class HomeBlock extends Vue {
+export default class DashboardHomeBlock extends Vue {
   crads = [
     {
       id: 1,
@@ -57,7 +57,7 @@ export default class HomeBlock extends Vue {
 </script>
 
 <style lang="scss">
-.home-block {
+.dashboard-home__block {
   width: calc(100% + 32px);
   margin-left: -16px;
   .home-cards {

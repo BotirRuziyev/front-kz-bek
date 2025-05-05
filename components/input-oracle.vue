@@ -46,16 +46,20 @@
         <EditIcon @click="$emit('edit', true)" />
       </label>
       <UpdateIcon v-if="update" class="input-update-action" />
-      <CopyIcon
+      <button
         v-if="copy"
-        class="input-copy-action"
+        class="copy-btn input-copy-action"
         @click="copyToClipboard"
-      />
-      <ShareIcon
+      >
+        <CopyIcon />
+      </button>
+      <button
         v-if="share"
-        class="input-share-action"
+        class="share-btn input-share-action"
         @click="$emit('shareContent')"
-      />
+      >
+        <ShareIcon />
+      </button>
       <ClipboardImport v-if="clipboard" class="input-clipboard-import-action" />
       <CloseIcon v-if="close" class="input-close-action" @click="value = ''" />
       <ClearIcon
@@ -87,7 +91,7 @@ import EditIcon from '@/assets/svg/moresettings/edit-2.svg?inline'
 // @ts-ignore
 import ScanIcon from '@/assets/svg/moresettings/scan.svg?inline'
 // @ts-ignore
-import CopyIcon from '@/assets/svg/moresettings/copy.svg?inline'
+import CopyIcon from '@/assets/svg/copy.svg?inline'
 // @ts-ignore
 import ClipboardImport from '@/assets/svg/moresettings/clipboard-import.svg?inline'
 // @ts-ignore
@@ -271,6 +275,10 @@ export default class InputOracle extends Vue {
   &-search {
     position: absolute;
     left: 15px;
+    z-index: 2;
+    path {
+      stroke: #7a74ba;
+    }
   }
 
   &.big {
@@ -284,6 +292,7 @@ export default class InputOracle extends Vue {
     cursor: pointer;
     bottom: 11px;
     right: 12px;
+    z-index: 2;
   }
   &-eye {
     position: absolute;
@@ -291,6 +300,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-edit-action {
     position: absolute;
@@ -298,6 +308,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-scan-action {
     position: absolute;
@@ -305,6 +316,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 80px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-copy-action {
     position: absolute;
@@ -312,6 +324,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-update-action {
     position: absolute;
@@ -319,6 +332,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 77px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-share-action {
     position: absolute;
@@ -326,6 +340,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-clipboard-import-action {
     position: absolute;
@@ -333,6 +348,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 46px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-close-action {
     position: absolute;
@@ -340,6 +356,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
     path {
       fill: #f64e2a;
       fill-opacity: 1;
@@ -351,6 +368,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   &-money-action {
     width: 24px;
@@ -360,6 +378,7 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 46px;
     transform: translateY(-50%);
+    z-index: 2;
     path {
       fill: #f64e2a;
     }
@@ -370,26 +389,29 @@ export default class InputOracle extends Vue {
     top: 50%;
     right: 52px;
     transform: translateY(-50%);
+    z-index: 2;
   }
   input {
     box-sizing: border-box;
     padding: 12px;
     width: 100%;
-    height: 48px;
-    background: rgba(29, 29, 41, 0.4);
-    border-radius: 8px;
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
+    height: 44px;
+    background: #181720;
+    border-radius: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
     color: #fff;
     border: none;
     outline: none;
 
     &::placeholder {
-      font-family: var(--font-family);
+      font-family: 'Roboto', sans-serif;
       font-weight: 400;
-      font-size: 16px;
-      color: #494755;
+      font-size: 14px;
+      line-height: 130%;
+      color: #67639a;
     }
 
     &::-webkit-outer-spin-button,

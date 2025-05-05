@@ -42,6 +42,111 @@ export default class AdressesModal extends Vue {
     visibility: visible;
     opacity: 1;
   }
+  &.check-created__successfully {
+    .modal-content {
+      .modal-head {
+        margin-bottom: 22px;
+        text-align: center;
+        .icon {
+          margin-bottom: 12px;
+        }
+        .modal-title {
+          font-family: 'Hector', sans-serif;
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 130%;
+          text-align: center;
+          color: #fff;
+        }
+      }
+      .qr-code {
+        margin-bottom: 12px;
+        padding: 10px;
+        background: transparent;
+      }
+      .input {
+        margin-bottom: 38px;
+      }
+      .total-amount {
+        margin-bottom: 60px;
+        .amount-title {
+          margin-bottom: 4px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 140%;
+          text-align: center;
+          color: #31f62a;
+        }
+        .amount-description {
+          margin-bottom: 4px;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 130%;
+          text-align: center;
+          color: #fff;
+        }
+      }
+      .new-oracle-button {
+        padding: 11px 0;
+        line-height: 22px;
+      }
+    }
+    &.error-modal,
+    &.successfully-modal {
+      .modal-content {
+        display: flex;
+        flex-direction: column;
+        .modal-in {
+          flex: 1 1 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 38px;
+          .modal-body {
+            .body-title {
+              margin-bottom: 4px;
+              font-family: 'Roboto', sans-serif;
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 130%;
+              text-align: center;
+              color: #f64e2a;
+            }
+            .body-description {
+              margin-bottom: 24px;
+              font-family: 'Roboto', sans-serif;
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 130%;
+              text-align: center;
+              color: #fff;
+              &::last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+    &.successfully-modal {
+      .modal-content {
+        .modal-in {
+          .modal-body {
+            .body-title {
+              font-family: 'Inter', sans-serif;
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 140%;
+              text-align: center;
+              color: #31f62a;
+            }
+          }
+        }
+      }
+    }
+  }
   &.change-name-address {
     .modal-head {
       display: flex;
@@ -96,7 +201,7 @@ export default class AdressesModal extends Vue {
       padding: 30px 16px;
       .modal-title {
         margin-bottom: 32px;
-        font-family: var(--second-family);
+        font-family: 'Roboto', sans-serif;
         letter-spacing: 0.8px;
         font-weight: 700;
         font-size: 14px;
@@ -118,7 +223,7 @@ export default class AdressesModal extends Vue {
   .modal-content {
     max-width: 375px;
     margin: 0 auto;
-    padding: 40px 10px;
+    padding: 24px 16px;
     height: 100%;
     overflow-y: auto;
     &::-webkit-scrollbar {
