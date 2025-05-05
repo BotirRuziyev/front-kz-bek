@@ -4,12 +4,22 @@
     <div class="create-check__content">
       <div class="form-control">
         <label for="#" class="form-label">Enter Number of Activations</label>
-        <input-oracle
-          label="Up to 10 activations available (based on balance)."
-          type="number"
+        <input
+          id="activations"
+          ref="convertInput"
+          v-model="activations"
+          type="text"
+          inputmode="decimal"
+          pattern="[0-9]*[.,]?[0-9]*"
+          class="form-input"
           placeholder="Maximum number of activations..."
-          @changed="convertedUSDT"
+          @input="convertedUSDT(activations)"
+          @keypress="allowDecimalNumbers"
+          @paste="blockInvalidDecimalPaste"
         />
+        <label for="#" class="form-label label-bottom"
+          >Up to 10 activations available (based on balance).</label
+        >
       </div>
       <div class="bottom">
         <div v-if="convert != 0" class="currency-usd">
@@ -24,53 +34,6 @@
         />
       </div>
     </div>
-    <adresses-modal :is-visible="false" class="check-created__successfully">
-      <div class="modal-head">
-        <div class="icon">
-          <SuccessfullIcon />
-        </div>
-        <h3 class="modal-title">Check Created Successfully!</h3>
-      </div>
-      <div class="qr-code">
-        <img :src="require('@/assets/png/qr-code.png')" alt="" />
-      </div>
-      <input-oracle
-        :deactivated="true"
-        :copy="true"
-        :share="true"
-        :v="shareUrl"
-        @shareContent="shareContent"
-      />
-      <div class="total-amount">
-        <h4 class="amount-title">Total Amount: 5.0 USDT</h4>
-        <p class="amount-description">Activations Available: 10</p>
-        <p class="amount-description">0.5 USDT per 1 activation</p>
-      </div>
-      <new-oracle-button text="Return to Wallet" color="yellow" />
-    </adresses-modal>
-    <adresses-modal
-      :is-visible="false"
-      class="check-created__successfully error-modal"
-    >
-      <div class="modal-in">
-        <div class="modal-head">
-          <div class="icon">
-            <ErrorIcon />
-          </div>
-          <h3 class="modal-title">Check Creation Failed</h3>
-        </div>
-        <div class="modal-body">
-          <p class="body-title">Reason</p>
-          <p class="body-description">
-            An error occurred due to a network issue. Please try again later.
-          </p>
-          <p class="body-description">
-            You can try again by submitting a new application.
-          </p>
-        </div>
-      </div>
-      <new-oracle-button text="Return to Wallet" color="yellow" />
-    </adresses-modal>
     <adresses-modal
       :is-visible="false"
       class="check-created__successfully error-modal"
@@ -131,6 +94,7 @@ import ErrorIcon from '@/assets/svg/check-error.svg?inline'
 })
 export default class StepOne extends Vue {
   convert = 0
+  activations: string = ''
   shareUrl =
     'https://oraclehub.su/check382941940509230950923450-92345-923-050-23403240324095г2390'
 
@@ -146,8 +110,51 @@ export default class StepOne extends Vue {
     }
   }
 
-  convertedUSDT(v: number) {
-    this.convert = parseFloat((v * 35.51).toFixed(2))
+  allowDecimalNumbers(event: KeyboardEvent): void {
+    const key = event.key
+    const isNumber = /^\d$/.test(key)
+    const isDot = key === '.' || key === ','
+
+    const target = event.target as HTMLInputElement
+    const currentValue = target.value
+    const alreadyHasDot =
+      currentValue.includes('.') || currentValue.includes(',')
+
+    if (!isNumber && !(isDot && !alreadyHasDot)) {
+      event.preventDefault()
+    }
+  }
+
+  blockInvalidDecimalPaste(event: ClipboardEvent): void {
+    event.preventDefault()
+    let pasted = event.clipboardData?.getData('text') || ''
+
+    pasted = pasted.replace(/,/g, '.')
+
+    pasted = pasted.replace(/[^\d.]/g, '')
+
+    const firstDotIndex = pasted.indexOf('.')
+    if (firstDotIndex !== -1) {
+      const beforeDot = pasted.slice(0, firstDotIndex + 1)
+      const afterDot = pasted.slice(firstDotIndex + 1).replace(/\./g, '')
+      pasted = beforeDot + afterDot
+    }
+
+    const target = event.target as HTMLInputElement
+    const currentValue = target.value
+    const selectionStart = target.selectionStart || 0
+    const selectionEnd = target.selectionEnd || 0
+
+    const newValue =
+      currentValue.slice(0, selectionStart) +
+      pasted +
+      currentValue.slice(selectionEnd)
+
+    target.value = newValue
+  }
+
+  convertedUSDT(v: string) {
+    this.convert = parseFloat((Number(v) * 35.51).toFixed(2))
   }
 
   prevStep() {
@@ -174,10 +181,7 @@ export default class StepOne extends Vue {
     font-size: 14px;
     line-height: 130%;
     color: #fff;
-  }
-  .input {
-    margin-bottom: 25px;
-    label {
+    &.label-bottom {
       order: 2;
       margin-bottom: 0;
       font-family: 'Inter', sans-serif;
@@ -186,9 +190,30 @@ export default class StepOne extends Vue {
       line-height: 140%;
       color: #fff;
     }
-    &-group {
-      order: 1;
-      margin-bottom: 8px;
+  }
+  .form-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    background: #13121b;
+    border: 1px solid #2b2741;
+    border-radius: 12px;
+    padding: 4px 12px;
+    height: 44px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    color: #fff;
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      color: #67639a;
     }
   }
   .currency-usd {

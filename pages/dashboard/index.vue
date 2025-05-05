@@ -88,7 +88,6 @@
       </ul>
       <div class="wallet-action-buttons">
         <new-oracle-button
-          color="yellow"
           text="Deposit"
           :icon="require('@/assets/svg/arrow-down.svg')"
           @click="openDepositModal"

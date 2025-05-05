@@ -119,20 +119,46 @@ export default class ExternalTransferStepOne extends Vue {
     const key = event.key
     const isNumber = /^\d$/.test(key)
     const isDot = key === '.' || key === ','
-    const alreadyHasDecimal =
-      this.amount.includes('.') || this.amount.includes(',')
 
-    if (!isNumber && !(isDot && !alreadyHasDecimal)) {
+    const target = event.target as HTMLInputElement
+    const currentValue = target.value
+    const alreadyHasDot =
+      currentValue.includes('.') || currentValue.includes(',')
+
+    if (!isNumber && !(isDot && !alreadyHasDot)) {
       event.preventDefault()
     }
   }
 
   blockInvalidDecimalPaste(event: ClipboardEvent): void {
-    const pasted = event.clipboardData?.getData('text') || ''
-    const cleaned = pasted.replace(',', '.')
-    if (!/^\d*\.?\d*$/.test(cleaned)) {
-      event.preventDefault()
+    event.preventDefault()
+    let pasted = event.clipboardData?.getData('text') || ''
+
+    pasted = pasted.replace(/,/g, '.')
+
+    pasted = pasted.replace(/[^\d.]/g, '')
+
+    const firstDotIndex = pasted.indexOf('.')
+    if (firstDotIndex !== -1) {
+      const beforeDot = pasted.slice(0, firstDotIndex + 1)
+      const afterDot = pasted.slice(firstDotIndex + 1).replace(/\./g, '')
+      pasted = beforeDot + afterDot
     }
+
+    const target = event.target as HTMLInputElement
+    const currentValue = target.value
+    const selectionStart = target.selectionStart || 0
+    const selectionEnd = target.selectionEnd || 0
+
+    const newValue =
+      currentValue.slice(0, selectionStart) +
+      pasted +
+      currentValue.slice(selectionEnd)
+
+    target.value = newValue
+
+    this.amount = newValue
+    this.updateAmount()
   }
 
   checkAmount(): void {

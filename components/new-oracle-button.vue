@@ -72,5 +72,8 @@ export default class ButtonOracle extends Vue {
       box-shadow: 0 0 5px #f64e2a;
     }
   }
+  .button-icon {
+    line-height: 0;
+  }
 }
 </style>

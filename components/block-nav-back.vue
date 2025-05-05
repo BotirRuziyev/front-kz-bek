@@ -3,7 +3,7 @@
     <nuxt-link :to="to" class="back-button" @click.native.stop="$emit('prev')">
       <arrowBackIcon />
     </nuxt-link>
-    <span>
+    <span class="block-nav-back__text">
       {{ text }}
     </span>
     <button v-if="more" class="more-btn">
@@ -42,9 +42,11 @@ export default class BlockNavBack extends Vue {
 .block-nav-back {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 4px;
   padding: 8px 0;
   margin-bottom: 4px;
+  position: relative;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 18px;
@@ -59,13 +61,26 @@ export default class BlockNavBack extends Vue {
     background: transparent;
     border: 0;
     box-shadow: none;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    z-index: 3;
     svg {
       path {
         stroke: #fff;
       }
     }
   }
-  span {
+  .more-btn,
+  .add-btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    z-index: 3;
+  }
+  &__text {
     width: 100%;
     text-align: center;
   }

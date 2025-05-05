@@ -66,10 +66,61 @@
           </transition>
         </div>
       </div>
-      <div class="check-details__botton">
-        <new-oracle-button text="Claim Check (0.5 BTC)" color="yellow" />
+      <div class="check-details__bottom">
+        <new-oracle-button
+          text="Claim Check (0.5 BTC)"
+          color="yellow"
+          @click="status = true"
+        />
       </div>
     </div>
+    <adresses-modal :is-visible="status" class="check-created__successfully">
+      <div class="modal-head">
+        <div class="icon">
+          <SuccessfullIcon />
+        </div>
+        <h3 class="modal-title">Check Created Successfully!</h3>
+      </div>
+      <div class="qr-code">
+        <img :src="require('@/assets/png/qr-code.png')" alt="" />
+      </div>
+      <input-oracle
+        :deactivated="true"
+        :copy="true"
+        :share="true"
+        :v="shareUrl"
+        @shareContent="shareContent"
+      />
+      <div class="total-amount">
+        <h4 class="amount-title">Total Amount: 5.0 USDT</h4>
+        <p class="amount-description">Activations Available: 10</p>
+        <p class="amount-description">0.5 USDT per 1 activation</p>
+      </div>
+      <new-oracle-button text="Return to Wallet" color="yellow" />
+    </adresses-modal>
+    <adresses-modal
+      :is-visible="false"
+      class="check-created__successfully error-modal"
+    >
+      <div class="modal-in">
+        <div class="modal-head">
+          <div class="icon">
+            <ErrorIcon />
+          </div>
+          <h3 class="modal-title">Check Creation Failed</h3>
+        </div>
+        <div class="modal-body">
+          <p class="body-title">Reason</p>
+          <p class="body-description">
+            An error occurred due to a network issue. Please try again later.
+          </p>
+          <p class="body-description">
+            You can try again by submitting a new application.
+          </p>
+        </div>
+      </div>
+      <new-oracle-button text="Return to Wallet" color="yellow" />
+    </adresses-modal>
   </div>
 </template>
 
@@ -344,7 +395,7 @@ export default class CheckDetailsPage extends Vue {
       }
     }
   }
-  &__botton {
+  &__bottom {
     width: 100%;
     background: #000;
     padding: 12px 20px 24px 20px;
@@ -352,6 +403,8 @@ export default class CheckDetailsPage extends Vue {
     left: 0;
     bottom: 0;
     .new-oracle-button {
+      max-width: 343px;
+      margin: 0 auto;
       border-radius: 14px;
       padding: 11px 16px;
       line-height: 22px;

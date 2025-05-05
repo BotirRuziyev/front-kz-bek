@@ -63,9 +63,32 @@ export default class AdressesModal extends Vue {
         margin-bottom: 12px;
         padding: 10px;
         background: transparent;
+        text-align: center;
       }
       .input {
         margin-bottom: 38px;
+        input {
+          padding-right: 82px;
+          text-overflow: ellipsis;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 130%;
+          color: #fff;
+        }
+        &-copy-action,
+        &-share-action {
+          border-radius: 8px;
+          width: 36px;
+          height: 36px;
+          background: #1e1d28;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          right: 44px;
+        }
+        &-share-action {
+          right: 4px;
+        }
       }
       .total-amount {
         margin-bottom: 60px;

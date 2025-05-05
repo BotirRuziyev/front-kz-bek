@@ -45,13 +45,35 @@
               Unclaimed Checks
             </button>
           </div>
-          <button class="arrow-sort__btn" @click="toggleSort">
-            <ArrowSortIcon />
-          </button>
+          <div class="dropdown">
+            <button class="arrow-sort__btn" @click="dropdown = !dropdown">
+              <ArrowSortIcon />
+            </button>
+            <div class="dropdown-menu" :class="{ show: dropdown }">
+              <div class="dropdown-item">
+                <button
+                  class="sort-btn"
+                  :class="{ active: sortDropdownType === 'sum' }"
+                  @click="sortChecks('sum')"
+                >
+                  по сумме
+                </button>
+              </div>
+              <div class="dropdown-item">
+                <button
+                  class="sort-btn"
+                  :class="{ active: sortDropdownType === 'date' }"
+                  @click="sortChecks('date')"
+                >
+                  времени
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="checks-list">
           <nuxt-link
-            v-for="(check, index) in filteredChecks"
+            v-for="(check, index) in filteredAndSortedChecks"
             :key="index"
             to="/checks/check-creation/check-details"
             class="check-item"
@@ -96,7 +118,6 @@
         </div>
       </div>
     </div>
-
     <draggable-modal
       class="filter-modal"
       :is-open="filterModal"
@@ -168,36 +189,13 @@ interface Item {
 export default class ChecksPage extends Vue {
   allCheck = false
   filterModal = false
-  sortAsc: boolean = true
-
+  dropdown: boolean = false
   filter: string = 'All'
+  sortDropdownType: 'sum' | 'date' | null = 'sum'
+  sortAsc: boolean = true
   selectedItems: string[] = []
 
   localData: Item[] = []
-
-  private checks = [
-    {
-      id: 1,
-      to: '/checks/check-creation?step=1',
-      img: require('@/assets/svg/checks/new-paycheck.svg'),
-      title: 'CREATE A CHECK',
-      description: 'New check creation',
-    },
-    {
-      id: 2,
-      to: '/checks/active-checks',
-      img: require('@/assets/svg/checks/paycheck-active.svg'),
-      title: 'Active CHECKS',
-      description: 'All unclaimed non-expired checks',
-    },
-    {
-      id: 3,
-      to: '/checks/checks-all',
-      img: require('@/assets/svg/checks/all-paycheck.svg'),
-      title: 'All CHECKS',
-      description: 'Checks History Through the time',
-    },
-  ]
 
   data = [
     {
@@ -240,8 +238,8 @@ export default class ChecksPage extends Vue {
 
   allChecks: CheckItem[] = [
     {
-      amount: '10 LTC',
-      usdValue: '$9 200',
+      amount: '15 LTC',
+      usdValue: '$12 489',
       remaining: '5 of 10',
       perActivation: '1 LTC',
       rate: '$900',
@@ -249,8 +247,8 @@ export default class ChecksPage extends Vue {
       createdOn: 'Dec 12, 2024',
     },
     {
-      amount: '10 LTC',
-      usdValue: '$9 200',
+      amount: '11 LTC',
+      usdValue: '$10 365',
       remaining: '10 of 10',
       perActivation: '1 LTC',
       rate: '$900',
@@ -258,8 +256,8 @@ export default class ChecksPage extends Vue {
       createdOn: 'Dec 10, 2024',
     },
     {
-      amount: '10 LTC',
-      usdValue: '$9 200',
+      amount: '8 LTC',
+      usdValue: '$7 225',
       remaining: '5 of 10',
       perActivation: '1 LTC',
       rate: '$900',
@@ -277,25 +275,66 @@ export default class ChecksPage extends Vue {
     },
   ]
 
-  toggleSort() {
-    this.sortAsc = !this.sortAsc
+  mounted() {
+    document.addEventListener('click', this.ClickOutside)
   }
 
-  get filteredChecks(): CheckItem[] {
-    const filtered =
-      this.filter === 'All'
-        ? this.allChecks
-        : this.allChecks.filter((item) => item.status === this.filter)
+  beforeDestroy() {
+    document.removeEventListener('click', this.ClickOutside)
+  }
 
-    return filtered.slice().sort((a, b) => {
-      const dateA = new Date(a.createdOn).getTime()
-      const dateB = new Date(b.createdOn).getTime()
-      return this.sortAsc ? dateA - dateB : dateB - dateA
-    })
+  ClickOutside(event: MouseEvent) {
+    const dropdownEl = this.$el.querySelector('.dropdown')
+    if (dropdownEl && !dropdownEl.contains(event.target as Node)) {
+      this.dropdown = false
+    }
+  }
+
+  get filteredAndSortedChecks(): CheckItem[] {
+    let result = [...this.allChecks]
+
+    // Filterlash
+    if (this.filter === 'Claimed') {
+      result = result.filter((item) => item.status === 'Claimed')
+    } else if (this.filter === 'Unclaimed') {
+      result = result.filter((item) => item.status === 'Unclaimed')
+    }
+
+    // Sortlash
+    if (this.sortDropdownType === 'sum') {
+      result.sort((a, b) => {
+        const aVal = parseFloat(
+          a.usdValue.replace(/[^\d.-]/g, '').replace(/\s/g, '')
+        )
+        const bVal = parseFloat(
+          b.usdValue.replace(/[^\d.-]/g, '').replace(/\s/g, '')
+        )
+        return this.sortAsc ? bVal - aVal : aVal - bVal
+      })
+    } else if (this.sortDropdownType === 'date') {
+      result.sort((a, b) => {
+        const aDate = new Date(a.createdOn)
+        const bDate = new Date(b.createdOn)
+        return this.sortAsc
+          ? bDate.getTime() - aDate.getTime()
+          : aDate.getTime() - bDate.getTime()
+      })
+    }
+
+    return result
   }
 
   setFilter(value: string) {
     this.filter = value
+  }
+
+  sortChecks(criteria: 'sum' | 'date') {
+    if (this.sortDropdownType === criteria) {
+      this.sortAsc = true
+    } else {
+      this.sortDropdownType = criteria
+      this.sortAsc = true
+    }
   }
 
   created() {
@@ -430,8 +469,46 @@ export default class ChecksPage extends Vue {
             }
           }
         }
-        .arrow-sort__btn {
-          cursor: pointer;
+        .dropdown {
+          position: relative;
+          .arrow-sort__btn {
+            cursor: pointer;
+          }
+          .dropdown-menu {
+            min-width: 100px;
+            border-radius: 5px;
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            &.show {
+              opacity: 1;
+              visibility: visible;
+              top: calc(100% + 5px);
+            }
+            .dropdown-item {
+              .sort-btn {
+                width: 100%;
+                padding: 5px 10px;
+                background: #13121b;
+                white-space: nowrap;
+                cursor: pointer;
+                font-family: 'Inter', sans-serif;
+                font-weight: 300;
+                font-size: 12px;
+                line-height: 140%;
+                text-align: left;
+                color: #fff;
+                transition: 0.2s;
+                &.active {
+                  background: #181720;
+                }
+              }
+            }
+          }
         }
       }
       .checks-list {
