@@ -38,7 +38,6 @@ body {
   padding: 0 16px;
   max-width: 375px;
   margin: 0 auto;
-  padding-top: 75px;
 }
 
 .popup-add-contact {

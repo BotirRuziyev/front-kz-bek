@@ -30,25 +30,73 @@ export default class DraggableModal extends Vue {
     this.modalContentIn = this.$refs.modalContentIn as HTMLElement
 
     if (this.modalContent) {
+      // Touch (mobil)
       this.modalContent.addEventListener('touchstart', this.handleTouchStart)
       this.modalContent.addEventListener('touchmove', this.handleTouchMove)
       this.modalContent.addEventListener('touchend', this.handleTouchEnd)
+
+      // Mouse (desktop)
+      this.modalContent.addEventListener('mousedown', this.handleMouseDown)
+      this.modalContent.addEventListener('mousemove', this.handleMouseMove)
+      this.modalContent.addEventListener('mouseup', this.handleMouseUp)
     }
+
+    document.addEventListener('click', this.ClickOutside)
 
     this.$nuxt.$on('open-modal', this.openModal)
     this.$nuxt.$on('close-modal', this.closeModal)
   }
 
+  beforeDestroy() {
+    document.removeEventListener('click', this.ClickOutside)
+
+    if (this.modalContent) {
+      this.modalContent.removeEventListener('touchstart', this.handleTouchStart)
+      this.modalContent.removeEventListener('touchmove', this.handleTouchMove)
+      this.modalContent.removeEventListener('touchend', this.handleTouchEnd)
+
+      this.modalContent.removeEventListener('mousedown', this.handleMouseDown)
+      this.modalContent.removeEventListener('mousemove', this.handleMouseMove)
+      this.modalContent.removeEventListener('mouseup', this.handleMouseUp)
+    }
+
+    this.$nuxt.$off('open-modal', this.openModal)
+    this.$nuxt.$off('close-modal', this.closeModal)
+  }
+
+  ClickOutside(event: Event): void {
+    const target = event.target as Node
+    const modalWrapper = this.modal
+    if (
+      modalWrapper &&
+      modalWrapper.contains(target) &&
+      this.modalContent &&
+      !this.modalContent.contains(target)
+    ) {
+      this.$nuxt.$emit('close-modal')
+      this.$emit('close')
+
+      setTimeout(() => {
+        document.body.style.overflow = 'auto'
+        document.body.style.paddingRight = '0'
+      }, 200)
+    }
+  }
+
   openModal() {
     this.modalContentIn!.style.opacity = '1'
-    this.modal!.style.backgroundColor = `rgba(0, 0, 0, 0.6)`
-    this.modalContent!.style.transform = `translateY(${0}%)`
+    this.modal!.style.backgroundColor = `rgba(0, 0, 0, 0.8)`
+    this.modalContent!.style.transform = `translateY(0%)`
+    document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = '15px'
   }
 
   closeModal() {
     this.modalContentIn!.style.opacity = '0'
     this.modal!.style.backgroundColor = `rgba(0, 0, 0, 0)`
-    this.modalContent!.style.transform = `translateY(${100}%)`
+    this.modalContent!.style.transform = `translateY(100%)`
+    document.body.style.overflow = 'auto'
+    document.body.style.paddingRight = '0'
   }
 
   private handleTouchStart(e: TouchEvent) {
@@ -56,7 +104,27 @@ export default class DraggableModal extends Vue {
   }
 
   private handleTouchMove(e: TouchEvent) {
-    const target = e.target as HTMLElement | null
+    this.simulateDrag(e.touches[0].clientY, e.target as HTMLElement | null)
+  }
+
+  private handleTouchEnd() {
+    this.endDrag()
+  }
+
+  private handleMouseDown(e: MouseEvent) {
+    this.startY = e.clientY
+  }
+
+  private handleMouseMove(e: MouseEvent) {
+    if (e.buttons !== 1) return
+    this.simulateDrag(e.clientY, e.target as HTMLElement | null)
+  }
+
+  private handleMouseUp() {
+    this.endDrag()
+  }
+
+  private simulateDrag(currentY: number, target: HTMLElement | null) {
     if (
       this.modalContentIn &&
       target &&
@@ -64,60 +132,70 @@ export default class DraggableModal extends Vue {
     ) {
       if (!this.modal || !this.modalContent) return
 
-      this.moveY = e.touches[0].clientY
+      this.moveY = currentY
       const deltaY = this.moveY - this.startY
       const modalHeight = this.modalContent.clientHeight
       const newOpacity = Math.max(1 - deltaY / modalHeight, 0)
-      const newBgOpacity = Math.max(0.6 - deltaY / modalHeight, 0)
+      const newBgOpacity = Math.max(0.8 - deltaY / modalHeight, 0)
+
       if (deltaY > 0) {
         if (newOpacity < 1) {
+          this.modal.style.transition = '0s'
           this.modal.style.backgroundColor = `rgba(0, 0, 0, ${newBgOpacity})`
           this.modalContentIn.style.opacity =
             deltaY < modalHeight / 1.6 ? `${newOpacity}` : '0'
         }
+
         if (deltaY > modalHeight / 1.6) {
           this.$emit('close')
           this.modalContentIn.style.opacity = '0'
           this.modal.style.backgroundColor = `rgba(0, 0, 0, 0)`
           this.modalContent.style.setProperty(
             'transform',
-            `translateY(${100}%)`,
+            `translateY(100%)`,
             'important'
           )
+          this.modalContent.style.transition = '0.2s'
+          this.modal.style.transition = '0.2s'
+          setTimeout(() => {
+            document.body.style.overflow = 'auto'
+            document.body.style.paddingRight = '0'
+          }, 200)
         } else {
           this.modalContent.style.setProperty(
             'transform',
             `translateY(${deltaY}px)`,
             'important'
           )
+          this.modalContent.style.transition = '0.2s, transform 0s'
         }
-        this.modalContent.style.transition = '0.5s, transform 0s'
       } else {
         this.modalContentIn.style.opacity = '1'
       }
     }
   }
 
-  private handleTouchEnd(e: TouchEvent) {
-    const target = e.target as HTMLElement | null
+  private endDrag() {
     if (!this.modal || !this.modalContent || !this.modalContentIn) return
 
     const deltaY = this.moveY - this.startY
-    if (target && !target.closest('.draggable-modal-content__in')) {
-      this.modal.style.backgroundColor = 'rgba(0, 0, 0, 0.6)'
-      this.modalContentIn.style.opacity = '1'
-      this.modalContent.style.transition = '0.5s, transform 0.5s'
+    this.modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'
+    this.modalContentIn.style.opacity = '1'
+    this.modalContent.style.transition = '0.2s, transform 0.2s'
+    this.modal.style.transition = '0.2s'
 
-      if (deltaY > this.modalContent.clientHeight / 1.6) {
-        this.$emit('close')
-        setTimeout(() => {
-          this.modalContentIn!.style.opacity = '0'
-          this.modal!.style.backgroundColor = `rgba(0, 0, 0, 0)`
-          this.modalContent!.style.transform = `translateY(${100}%)`
-        }, 200)
-      } else {
-        this.modalContent.style.transform = 'translateY(0)'
-      }
+    if (deltaY > this.modalContent.clientHeight / 1.6) {
+      this.$emit('close')
+      this.modalContentIn.style.opacity = '0'
+      this.modal.style.backgroundColor = `rgba(0, 0, 0, 0)`
+      this.modalContent.style.transform = `translateY(100%)`
+      this.modalContent.style.transition = '0.2s'
+      setTimeout(() => {
+        document.body.style.overflow = 'auto'
+        document.body.style.paddingRight = '0'
+      }, 200)
+    } else {
+      this.modalContent.style.transform = 'translateY(0)'
     }
   }
 }
@@ -129,17 +207,15 @@ export default class DraggableModal extends Vue {
   height: 100vh;
   overflow: hidden;
   padding-top: 88px;
-  backdrop-filter: blur(0px);
   background: rgba(0, 0, 0, 0);
   visibility: hidden;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 101;
-  transition: 0.3s;
+  transition: 0.2s;
   &.show {
-    backdrop-filter: blur(35.400001525878906px);
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     visibility: visible;
     .draggable-modal-content {
       transform: translateY(0) !important;
@@ -159,11 +235,12 @@ export default class DraggableModal extends Vue {
     border-radius: 30px 30px 0 0;
     padding: 0 16px 24px;
     transform: translateY(100%) !important;
-    transition: 0.3s;
+    transition: 0.2s;
     &__in {
       min-height: calc(100% - 34px);
       opacity: 0;
-      transition: 0.3s;
+      transition: 0.2s;
+      user-select: none;
     }
     &::-webkit-scrollbar {
       display: none;

@@ -39,7 +39,7 @@ export default class HeaderOracle extends Vue {}
 </script>
 <style lang="scss">
 .header {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 100;

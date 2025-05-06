@@ -397,7 +397,7 @@ export default class DashboardPage extends Vue {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px 0 90px;
+  padding: 14px 0 90px;
   .wallet-overview {
     .wallet-balance {
       display: flex;
