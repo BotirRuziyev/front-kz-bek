@@ -1,42 +1,32 @@
 <template>
   <div class="lang-settings">
-    <block-nav-back to="/moresettings" text="LANGUAGE" />
-    <input-oracle
-      type="text"
-      :search="true"
-      placeholder="Search..."
-      @changed="filterLanguages"
-    />
-    <ul class="lang-list">
-      <li
-        v-for="lang of filteredLanguages"
-        :key="lang.id"
-        class="list-item"
-        @click="selectLang(lang.id)"
-      >
-        <div class="left-block">
-          <div class="lang-icon">
-            <img :src="lang.image" alt="" />
+    <div class="main-container">
+      <block-nav-back to="/moresettings" text="Language" />
+      <ul class="lang-list">
+        <li
+          v-for="lang of languages"
+          :key="lang.id"
+          class="list-item"
+          @click="selectLang(lang.id)"
+        >
+          <div class="left-block">
+            <div class="lang-info">
+              <h5 class="lang-name">{{ lang.name }}</h5>
+            </div>
           </div>
-          <div class="lang-info">
-            <h5 class="lang-name">{{ lang.name }}</h5>
-            <p class="lang-description">
-              {{ lang.description }}
-            </p>
+          <div class="selected-icon" :class="{ selected: lang.selected }">
+            <tickCircleIcon />
           </div>
-        </div>
-        <div v-if="lang.selected" class="selected-icon">
-          <tickCircleIcon />
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 // @ts-ignore
-import tickCircleIcon from '@/assets/svg/tick-circle.svg?inline'
+import tickCircleIcon from '@/assets/svg/check-icon.svg?inline'
 
 @Component({
   components: {
@@ -44,64 +34,39 @@ import tickCircleIcon from '@/assets/svg/tick-circle.svg?inline'
   },
 })
 export default class LanguagePage extends Vue {
-  private searchQuery = ''
   private languages = [
     {
       id: 1,
-      image: require('@/assets/svg/united-states-flag.svg'),
       name: 'English',
-      description: 'Choose this to display the interface in English',
       selected: true,
     },
     {
       id: 2,
-      image: require('@/assets/svg/russia-flag.svg'),
-      name: 'Русский (Russian)',
-      description: 'Выберите, чтобы интерфейс отображался на русском',
+      name: 'Russian (Русский)',
       selected: false,
     },
     {
       id: 3,
-      image: require('@/assets/svg/china-flag.svg'),
-      name: '中文 (Chinese)',
-      description: '选择此语言以将界面显示为中文',
+      name: 'Chinese (中文)',
       selected: false,
     },
     {
       id: 4,
-      image: require('@/assets/svg/spain-flag.svg'),
-      name: 'Español (Spainish)',
-      description: 'Elija este idioma para mostrar la interfaz en español',
+      name: 'Spanish (Español)',
       selected: false,
     },
     {
       id: 5,
-      image: require('@/assets/svg/france-flag.svg'),
-      name: 'Français (French)',
-      description:
-        "Choisissez cette langue pour afficher l'interface en français",
+      name: 'French (Français)',
       selected: false,
     },
   ]
 
-  private filteredLanguages = [...this.languages]
-
-  private filterLanguages(value: string): void {
-    this.searchQuery = value
-    this.filteredLanguages = this.languages.filter((lang) =>
-      lang.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    )
-  }
-
   selectLang(id: number) {
-    this.filteredLanguages = this.filteredLanguages.map((lang) => ({
+    this.languages = this.languages.map((lang) => ({
       ...lang,
       selected: lang.id === id,
     }))
-  }
-
-  layout() {
-    return 'mobile'
   }
 }
 </script>
@@ -114,43 +79,47 @@ export default class LanguagePage extends Vue {
   .lang-list {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+
     .list-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-right: 6px;
+      padding: 13px 16px 13px 4px;
+      margin-right: -16px;
       cursor: pointer;
+      border-bottom: 1px solid #2b2741;
       .left-block {
         display: flex;
         align-items: center;
         gap: 15px;
-        .lang-icon {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          overflow: hidden;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
         .lang-info {
           .lang-name {
-            margin-bottom: 7px;
-            font-family: var(--font-family);
+            font-family: 'Roboto', sans-serif;
             font-weight: 400;
-            font-size: 16px;
-            line-height: 11px;
+            font-size: 14px;
+            line-height: 130%;
             color: #fff;
           }
-          .lang-description {
-            font-family: var(--font-family);
-            font-weight: 400;
-            font-size: 10px;
-            line-height: 100%;
-            color: rgba(255, 255, 255, 0.6);
+        }
+      }
+      .selected-icon {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #2b2b2b;
+        border-radius: 50%;
+        transition: 0.2s;
+        svg {
+          opacity: 0;
+          transition: 0.2s;
+        }
+        &.selected {
+          background: #f64e2a;
+          border-color: #f64e2a;
+          svg {
+            opacity: 1;
           }
         }
       }

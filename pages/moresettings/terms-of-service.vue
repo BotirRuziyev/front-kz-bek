@@ -1,18 +1,17 @@
 <template>
   <div class="terms-of-service">
-    <block-nav-back text="TERMS OF SERVICE" to="/moresettings" />
-    <block-title-oracle
-      text="ORACLE NETWORK VERSION FROM 03 MARCH 2025 15:30
-    EST MILITARY TIME"
-    />
-    <ul class="section-list">
-      <li v-for="(section, index) in sections" :key="index" class="list-item">
-        <h4 class="list-title">{{ section.title }}</h4>
-        <p class="list-description">
-          {{ section.description }}
-        </p>
-      </li>
-    </ul>
+    <div class="main-container">
+      <block-nav-back text="Terms of Service" to="/moresettings" />
+      <block-title-oracle text="Oracle netowrk version from 03 march" />
+      <ul class="section-list">
+        <li v-for="(section, index) in sections" :key="index" class="list-item">
+          <h4 class="list-title">{{ section.title }}</h4>
+          <p class="list-description">
+            {{ section.description }}
+          </p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -21,32 +20,36 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class TermsOfServicePage extends Vue {
-  layout() {
-    return 'mobile'
-  }
-
   sections = [
     {
       id: 1,
-      title: 'Section 1',
-      description: 'Lörem ipsum dekagönes patesade, pys tinde. ',
+      title: 'Your request',
+      description:
+        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 2,
-      title: 'Section 1',
+      title: 'Your request',
       description:
-        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt.  ',
+        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 3,
-      title: 'Section 1',
-      description: 'Lörem ipsum dekagönes patesade, pys tinde. ',
+      title: 'Your request',
+      description:
+        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 4,
-      title: 'Section 1',
+      title: 'Your request',
       description:
-        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt.  ',
+        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
+    },
+    {
+      id: 5,
+      title: 'Your request',
+      description:
+        'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
   ]
 }
@@ -54,32 +57,28 @@ export default class TermsOfServicePage extends Vue {
 
 <style lang="scss">
 .terms-of-service {
+  padding-bottom: 24px;
   .block-title-oracle {
     display: block;
-    margin-bottom: 45px;
-    font-family: var(--second-family);
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: normal;
-    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 24px;
   }
   .section-list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
     .list-item {
+      padding: 12px 0;
       .list-title {
-        margin-bottom: 18px;
-        font-family: var(--font3);
-        font-weight: 700;
-        font-size: 16px;
+        margin-bottom: 8px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
         color: #fff;
       }
       .list-description {
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.5);
+        font-family: 'Inter', sans-serif;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 140%;
+        color: #fff;
       }
     }
   }

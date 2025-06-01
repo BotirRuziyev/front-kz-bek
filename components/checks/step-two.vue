@@ -169,6 +169,9 @@ export default class StepOne extends Vue {
     .create-check__content {
       height: calc(100vh - 95px);
     }
+    .form-input {
+      padding: 4px 12px;
+    }
   }
   .block-nav-back {
     margin-bottom: 30px;
@@ -194,11 +197,10 @@ export default class StepOne extends Vue {
   .form-input {
     display: block;
     width: 100%;
-    margin-bottom: 8px;
     background: #13121b;
     border: 1px solid #2b2741;
     border-radius: 12px;
-    padding: 4px 12px;
+    // padding: 4px 12px;
     height: 44px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;

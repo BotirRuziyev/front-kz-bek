@@ -1,51 +1,55 @@
 <template>
   <div class="tickets">
-    <block-nav-back text="TICKETS" to="/moresettings" />
-    <ul class="tickets-list">
-      <li class="tickets-item tickets-card border-gradient">
-        <div class="left-blur"></div>
-        <nuxt-link to="/moresettings/tickets/active-tickets">
-          <div class="card-in">
-            <div class="left-block">
-              <h2 class="card-title">ACTIVE TICKETS</h2>
-              <p class="card-description">Active tickets with Oracle Support</p>
-            </div>
-            <button class="active-ticket-btn ticket-btn"></button>
-          </div>
-        </nuxt-link>
-      </li>
-      <li class="tickets-item tickets-card border-gradient">
-        <div class="left-blur"></div>
-        <nuxt-link to="/moresettings/tickets/closed-tickets">
-          <div class="card-in">
-            <div class="left-block">
-              <h2 class="card-title">CLOSED TICKETS</h2>
-              <p class="card-description">
-                Past tickets opened with Oracle Support
+    <div class="main-container">
+      <block-nav-back text="Tickets" to="/moresettings" :add="true" />
+
+      <!-- Filter -->
+      <div class="tickets__filter">
+        <button
+          v-for="option in filterOptions"
+          :key="option"
+          class="tickets__filter-button"
+          :class="{
+            'tickets__filter-button--active': selectedFilter === option,
+          }"
+          @click="selectFilter(option)"
+        >
+          {{ option }}
+        </button>
+      </div>
+
+      <!-- Ticket List -->
+      <div
+        v-for="(group, index) in filteredTicketGroups"
+        :key="index"
+        class="tickets__group"
+      >
+        <h2 class="tickets__date">{{ group.date }}</h2>
+        <ul class="tickets__items">
+          <li v-for="(ticket, i) in group.tickets" :key="i">
+            <nuxt-link
+              :to="`/moresettings/tickets/${ticket.id}`"
+              class="tickets__card"
+            >
+              <p class="tickets__card-id">
+                <strong>ID:</strong> #{{ ticket.id }}
               </p>
-            </div>
-            <button class="closed-ticket-btn ticket-btn"></button>
-          </div>
-        </nuxt-link>
-      </li>
-      <li class="tickets-item tickets-card border-gradient">
-        <div class="left-blur"></div>
-        <nuxt-link to="/moresettings/tickets/new-ticket">
-          <div class="card-in">
-            <div class="left-block">
-              <h2 class="card-title">OPEN NEW TICKET</h2>
-              <p class="card-description">
-                Chat with Support to create a new <br />
-                ticket for questions or claims
-              </p>
-            </div>
-            <button class="new-ticket-btn ticket-btn">
-              <addCircleIcon />
-            </button>
-          </div>
-        </nuxt-link>
-      </li>
-    </ul>
+              <p class="tickets__card-title">{{ ticket.title }}</p>
+              <time class="tickets__card-time">{{ ticket.time }}</time>
+              <span
+                class="tickets__card-status"
+                :class="{
+                  'tickets__card-status--active': ticket.status === 'Active',
+                  'tickets__card-status--closed': ticket.status === 'Closed',
+                }"
+              >
+                {{ ticket.status }}
+              </span>
+            </nuxt-link>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,66 +58,192 @@ import { Component, Vue } from 'nuxt-property-decorator'
 // @ts-ignore
 import addCircleIcon from '@/assets/svg/moresettings/add-circle.svg?inline'
 
+interface Ticket {
+  id: string
+  title: string
+  time: string
+  status: 'Active' | 'Closed'
+}
+
+interface TicketGroup {
+  date: string
+  tickets: Ticket[]
+}
+
 @Component({
   components: {
     addCircleIcon,
   },
 })
 export default class TicketsPage extends Vue {
-  layout() {
-    return 'mobile'
+  selectedFilter: string = 'All'
+  filterOptions: string[] = ['All', 'Active', 'Closed']
+
+  ticketGroups: TicketGroup[] = [
+    {
+      date: 'March 20, 2025',
+      tickets: [
+        {
+          id: '101010101',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Active',
+        },
+        {
+          id: '101010102',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Closed',
+        },
+        {
+          id: '101010103',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Closed',
+        },
+        {
+          id: '101010104',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Active',
+        },
+      ],
+    },
+    {
+      date: 'March 20, 2025',
+      tickets: [
+        {
+          id: '101010105',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Active',
+        },
+        {
+          id: '101010106',
+          title: 'Ticket title',
+          time: '12:03',
+          status: 'Closed',
+        },
+      ],
+    },
+  ]
+
+  selectFilter(option: string): void {
+    this.selectedFilter = option
+  }
+
+  get filteredTicketGroups(): TicketGroup[] {
+    if (this.selectedFilter === 'All') {
+      return this.ticketGroups
+    }
+
+    return this.ticketGroups
+      .map((group) => ({
+        date: group.date,
+        tickets: group.tickets.filter(
+          (ticket) => ticket.status === this.selectedFilter
+        ),
+      }))
+      .filter((group) => group.tickets.length > 0)
   }
 }
 </script>
 
 <style lang="scss">
 .tickets {
-  &-list {
+  &__filter {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    .tickets-card {
-      .card-in {
-        padding: 20px 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .card-title {
-          margin-bottom: 8px;
-          font-family: var(--second-family);
-          font-weight: 700;
-          font-size: 12px;
-          color: #fff;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    &-button {
+      width: 40px;
+      position: relative;
+      padding-bottom: 6px;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 135%;
+      text-align: center;
+      color: #fff;
+      &::after {
+        content: '';
+        width: 0;
+        height: 2px;
+        border-radius: 10px;
+        background: #f64e2a;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+      &--active {
+        color: #f64e2a;
+        &::after {
+          width: 100%;
         }
-        .card-description {
-          font-family: var(--font-family);
-          font-weight: 400;
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.6);
-        }
-        .ticket-btn {
-          width: 15px;
-          height: 15px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-          background-color: #1b961f;
-          box-shadow: 0 0 10px #1b961f;
-          &.closed-ticket-btn {
-            background: #d80027;
-            box-shadow: 0 0 10px #d80027;
-          }
-          &.new-ticket-btn {
-            background: transparent;
-            box-shadow: 0 0 10px #eb4b2a;
-            svg {
-              min-width: 18px;
-              min-height: 18px;
-              margin: -0.5px -0.5px 0 0;
-            }
-          }
-        }
+      }
+    }
+  }
+  &__date {
+    margin-bottom: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    color: #fff;
+  }
+  &__items {
+    margin-bottom: 24px;
+  }
+  &__card {
+    display: block;
+    width: calc(100% + 32px);
+    border-bottom: 1px solid #2b2741;
+    padding: 12px 16px;
+    position: relative;
+    margin-left: -16px;
+    &-id {
+      margin-bottom: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 130%;
+      color: #7a74ba;
+    }
+    &-title {
+      margin-bottom: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      color: #fff;
+    }
+    &-time {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 135%;
+      color: #7a74ba;
+    }
+    &-status {
+      padding: 5.5px 10px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 145%;
+      position: absolute;
+      right: 16px;
+      bottom: 22px;
+      &--active {
+        background: #31f62a;
+        color: #000;
+      }
+      &--closed {
+        background: #292929;
+        color: #f2ff00;
       }
     }
   }

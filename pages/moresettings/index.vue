@@ -1,82 +1,51 @@
 <template>
   <div class="more-main">
-    <input-oracle
-      search="true"
-      placeholder="Search..."
-      @changed="filterSettings"
-    />
-    <div class="more-main__content">
-      <ul class="more-settings__list d-flex flex-column">
-        <li
-          v-for="setting in filteredmoreSettins"
-          :key="setting.id"
-          class="list-item border-gradient"
-        >
-          <nuxt-link :to="setting.to" class="settings-link">
-            <div class="left-blur"></div>
-            <div class="settings-icon">
-              <img :src="setting.img" alt="" />
-            </div>
-            {{ setting.title }}
-          </nuxt-link>
-        </li>
-      </ul>
-      <div class="more-contact">
-        <h1 class="contact-title">CONTACTS</h1>
-        <ul class="contact-list">
-          <li class="list-item">
-            <a href="#" class="contact-link">
-              <div class="left-block">
-                <div class="icon">
-                  <telegramIcon />
-                </div>
-                Telegram
-              </div>
-              <div class="arrown-icon">
-                <arrowLeftIcon />
-              </div>
-            </a>
-          </li>
-          <li class="list-item">
-            <a href="#" class="contact-link">
-              <div class="left-block">
-                <div class="icon">
-                  <signalIcon />
-                </div>
-                Signal
-              </div>
-              <div class="arrown-icon">
-                <arrowLeftIcon />
-              </div>
-            </a>
-          </li>
-          <li class="list-item">
-            <a href="#" class="contact-link">
-              <div class="left-block">
-                <div class="icon">
-                  <whatsappIcon />
-                </div>
-                WhatsApp
-              </div>
-              <div class="arrown-icon">
-                <arrowLeftIcon />
-              </div>
-            </a>
-          </li>
-          <li class="list-item">
-            <a href="#" class="contact-link">
-              <div class="left-block">
-                <div class="icon">
-                  <simplexIcon />
-                </div>
-                SimpleX
-              </div>
-              <div class="arrown-icon">
-                <arrowLeftIcon />
-              </div>
-            </a>
+    <div class="main-container">
+      <BlockNavBack text="Seetings" />
+      <input-oracle
+        search="true"
+        placeholder="Search..."
+        @changed="filterSettings"
+      />
+      <nuxt-link to="/moresettings/personal-account" class="app-profile-tile">
+        <div class="app-profile-tile__avatar">
+          <UserIcon />
+        </div>
+        <div class="app-profile-tile__info">
+          <div class="app-profile-tile__name">Name surname</div>
+          <div class="app-profile-tile__nickname">Nickname</div>
+        </div>
+        <div class="app-profile-tile__arrow">
+          <ArrowRightIcon />
+        </div>
+      </nuxt-link>
+
+      <div class="more-main__content">
+        <ul class="more-settings__list d-flex flex-column">
+          <li
+            v-for="setting in filteredmoreSettins"
+            :key="setting.id"
+            class="list-item"
+          >
+            <app-feature-link
+              :to="setting.to"
+              :src="setting.img"
+              :text="setting.title"
+            />
           </li>
         </ul>
+        <div class="more-contact">
+          <h1 class="contact-title">Contacts</h1>
+          <ul class="contact-list">
+            <li v-for="contact of contacts" :key="contact.id" class="list-item">
+              <app-feature-link
+                :to="contact.to"
+                :src="contact.src"
+                :text="contact.name"
+              />
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -84,98 +53,88 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 // @ts-ignore
-import telegramIcon from '@/assets/svg/telegram.svg?inline'
+import ArrowRightIcon from '@/assets/svg/arrow-left.svg?inline'
 // @ts-ignore
-import arrowLeftIcon from '@/assets/svg/arrow-left.svg?inline'
-// @ts-ignore
-import signalIcon from '@/assets/svg/signal.svg?inline'
-// @ts-ignore
-import whatsappIcon from '@/assets/svg/whatsapp.svg?inline'
-// @ts-ignore
-import simplexIcon from '@/assets/svg/simplex.svg?inline'
+import UserIcon from '@/assets/svg/user-icon.svg?inline'
 
 @Component({
   components: {
-    telegramIcon,
-    arrowLeftIcon,
-    signalIcon,
-    whatsappIcon,
-    simplexIcon,
+    ArrowRightIcon,
+    UserIcon,
   },
 })
 export default class MoreSettingsPage extends Vue {
   private searchQuery = ''
 
-  layout() {
-    return 'mobile'
-  }
-
   private moreSettins = [
     {
       id: 1,
-      to: '/moresettings/language',
-      img: require('@/assets/svg/globe.svg'),
-      title: 'LANGUAGE',
+      to: '/moresettings/privacy-security',
+      img: require('@/assets/svg/moresettings/privacy-icon.svg'),
+      title: 'Privacy and Security',
     },
     {
       id: 2,
-      to: '/moresettings/account',
-      img: require('@/assets/svg/paycheck-with-active.svg'),
-      title: 'ACCOUNT SETTINGS & SECURITY',
+      to: '/moresettings/oracle-pay',
+      img: require('@/assets/svg/moresettings/oracle-pay-icon.svg'),
+      title: 'Oracle Pay',
     },
     {
       id: 3,
-      to: '/moresettings/seed-recovery',
-      img: require('@/assets/svg/seed-recovery.svg'),
-      title: 'SEED RECOVERY',
+      to: '/moresettings/language',
+      img: require('@/assets/svg/moresettings/lang-icon.svg'),
+      title: 'Language',
     },
     {
       id: 4,
-      to: '/moresettings/mycontacts',
-      img: require('@/assets/svg/phone.svg'),
-      title: 'MY CONTACTS',
+      to: '/moresettings/payment-methods',
+      img: require('@/assets/svg/moresettings/payment-icon.svg'),
+      title: 'Payment methods',
     },
     {
       id: 5,
-      to: '/moresettings/addresses',
-      img: require('@/assets/svg/bitcoin-withdrawal.svg'),
-      title: 'SAVED & FAVOURITE EXTERNAL WITHDRAWALS ADDRESSES',
+      to: '/moresettings/tickets',
+      img: require('@/assets/svg/moresettings/ticket-icon.svg'),
+      title: 'Tickets',
     },
     {
       id: 6,
-      to: '/moresettings/payment-details-p2p',
-      img: require('@/assets/svg/bank-card.svg'),
-      title: ' SAVED PAYMENT DETAILS FOR P2P',
+      to: '/moresettings/fees',
+      img: require('@/assets/svg/moresettings/fees-icon.svg'),
+      title: 'Fees',
     },
     {
       id: 7,
-      to: '/moresettings/tickets',
-      img: require('@/assets/svg/ticket.svg'),
-      title: 'TICKETS',
-    },
-    {
-      id: 8,
-      to: '/moresettings/fees',
-      img: require('@/assets/svg/fees.svg'),
-      title: 'FEES',
-    },
-    {
-      id: 9,
-      to: '#',
-      img: require('@/assets/svg/become.svg'),
-      title: 'BECOME @ORACLEVERIFIED',
-    },
-    {
-      id: 10,
-      to: '#',
-      img: require('@/assets/svg/oracle.svg'),
-      title: 'ORACLEPAY',
-    },
-    {
-      id: 11,
       to: '/moresettings/terms-of-service',
-      img: require('@/assets/svg/document.svg'),
-      title: 'TERMS OF SERVICE',
+      img: require('@/assets/svg/moresettings/terms-icon.svg'),
+      title: 'Terms of Service',
+    },
+  ]
+
+  private contacts = [
+    {
+      id: 1,
+      to: '#',
+      src: require('@/assets/svg/telegram-icon.svg'),
+      name: 'Telegram',
+    },
+    {
+      id: 2,
+      to: '#',
+      src: require('@/assets/svg/signal.svg'),
+      name: 'Signal',
+    },
+    {
+      id: 3,
+      to: '#',
+      src: require('@/assets/svg/whatsapp.svg'),
+      name: 'WhatsApp',
+    },
+    {
+      id: 4,
+      to: '#',
+      src: require('@/assets/svg/simplex.svg'),
+      name: 'SimpleX',
     },
   ]
 
@@ -183,8 +142,6 @@ export default class MoreSettingsPage extends Vue {
 
   private filterSettings(value: string): void {
     this.searchQuery = value
-    console.log(value)
-
     this.filteredmoreSettins = this.moreSettins.filter((setting) =>
       setting.title.toLowerCase().includes(this.searchQuery.toLowerCase())
     )
@@ -194,203 +151,82 @@ export default class MoreSettingsPage extends Vue {
 <style lang="scss">
 .more-main {
   min-height: calc(100vh - 85px);
-  padding: 18px 0 24px;
+  padding: 0 0 20px;
   .input {
     margin-bottom: 18px;
+  }
+  .app-profile-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: #13121b;
+    border-radius: 12px;
+    padding: 12px 8px 12px 12px;
+    margin-bottom: 16px;
+    transition: 0.2s;
+    &:hover {
+      background: #2b2741;
+    }
+    &__avatar {
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      background: #1e1d28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__info {
+      width: 100%;
+    }
+    &__name {
+      margin-bottom: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 130%;
+      color: #fff;
+    }
+    &__nickname {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 135%;
+      color: #7a74ba;
+    }
+    &__arrow {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        path {
+          stroke: #7a74ba;
+        }
+      }
+    }
   }
   &__content {
     .more-settings__list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 60px;
-      .list-item {
-        border-radius: 12px;
-
-        overflow: hidden;
-        &:nth-child(1) {
-          .settings-link {
-            &::after {
-              background: url('@/assets/svg/translate.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(2) {
-          .settings-link {
-            &::after {
-              background: url('@/assets/svg/setting-2.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(3) {
-          .settings-link {
-            &::after {
-              background: url('@/assets/svg/text.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(4) {
-          .settings-link {
-            &::after {
-              right: -8px;
-              background: url('@/assets/svg/profile-2user.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(5) {
-          .settings-link {
-            &::after {
-              top: -1px;
-              right: -2px;
-              background: url('@/assets/svg/money-send.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(6) {
-          .settings-link {
-            &::after {
-              background: url('@/assets/svg/cards.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(7) {
-          .settings-link {
-            &::after {
-              background: url('@/assets/svg/ticket-expired.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(8) {
-          .settings-link {
-            &::after {
-              top: 0;
-              right: -14px;
-              background: url('@/assets/svg/receipt-2.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(9) {
-          .settings-link {
-            &::after {
-              right: -4px;
-              background: url('@/assets/svg/login.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(10) {
-          .settings-link {
-            &::after {
-              right: -6px;
-              background: url('@/assets/svg/empty-wallet.svg') no-repeat;
-            }
-          }
-        }
-        &:nth-child(11) {
-          .settings-link {
-            &::after {
-              right: -10px;
-              background: url('@/assets/svg/document-text.svg') no-repeat;
-            }
-          }
-        }
-        .settings-link {
-          display: block;
-          padding: 11px 25px 16px 14px;
-          font-family: var(--second-family);
-          font-weight: 700;
-          font-size: 20px;
-          text-transform: uppercase;
-          color: #fff;
-          position: relative;
-          &::after {
-            content: '';
-            width: 102px;
-            height: 102px;
-            background-position: center;
-            position: absolute;
-            top: 0;
-            right: -5px;
-          }
-
-          .settings-icon {
-            width: 73px;
-            height: 73px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-          }
-        }
-      }
+      margin-bottom: 24px;
     }
     .more-contact {
       .contact-title {
         margin-bottom: 18px;
-        font-family: var(--second-family);
-        font-weight: 700;
-        font-size: 20px;
-        text-transform: uppercase;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 140%;
         color: #fff;
       }
-      .contact-list {
-        background: rgba(29, 29, 41, 0.4);
-        border-radius: 12px;
-        padding: 0 12px;
-        overflow: hidden;
-        .list-item {
-          &:first-child {
-            .contact-link {
-              .left-block {
-                .icon {
-                  svg {
-                    height: 12px;
-                  }
-                }
-              }
-            }
-          }
-          &:last-child {
-            .contact-link {
-              border-bottom: 0;
-            }
-          }
-          .contact-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 8px 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-            .left-block {
-              display: flex;
-              align-items: center;
-              gap: 12px;
-              font-family: var(--font-family);
-              font-weight: 400;
-              font-size: 16px;
-              text-align: center;
-              color: #fff;
-              .icon {
-                width: 32px;
-                height: 32px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 100%;
-                background: #121119;
-                border: 1px solid #f64e2a;
-                box-shadow: 0 0 10px 2px rgba(246, 78, 42, 0.15);
-                img {
-                  width: fit-content;
-                  height: fit-content;
-                  object-fit: contain;
-                }
-              }
-            }
-          }
-        }
+      .feature-link__item {
+        min-height: 52px;
       }
     }
   }

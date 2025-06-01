@@ -253,5 +253,161 @@ export default class AdressesModal extends Vue {
       width: 0;
     }
   }
+  &.payment-methods__modal {
+    &.show {
+      background: rgba(0, 0, 0, 1);
+    }
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      grid-template: 25px;
+      .modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 100%;
+        .modal__icon {
+          border-radius: 40px;
+          padding: 15px;
+          width: 64px;
+          height: 64px;
+          background: #f64e2a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 12px;
+          svg {
+            width: 28px;
+            height: 28px;
+            path {
+              fill: #fff;
+            }
+          }
+        }
+        .modal__title {
+          margin-bottom: 38px;
+          font-family: 'Hector', sans-serif;
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 130%;
+          text-align: center;
+          color: #fff;
+        }
+        .modal__description {
+          font-family: 'Roboto', sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 130%;
+          text-align: center;
+          color: #fff;
+        }
+      }
+      .modal__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .new-oracle-button {
+          &.black {
+            background: #181720;
+            &:hover {
+              background: #181720;
+              box-shadow: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.verification-modal {
+    &.show {
+      background: #000;
+    }
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .verification-modal__head {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .verification-modal__icon {
+    background: #b36c02;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-family: 'Hector', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 125%;
+    text-align: center;
+    color: #000;
+  }
+  .verification-modal__title {
+    margin-bottom: 38px;
+    font-family: 'Hector', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 130%;
+    text-align: center;
+    color: #fff;
+  }
+  .verification-modal__message {
+    margin-bottom: 38px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    color: #fff;
+  }
+  .verification-modal__tips {
+    width: 100%;
+    &--head {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      color: #fff;
+    }
+  }
+  .verification-modal__list {
+    padding-left: 16px;
+    &-item {
+      list-style: disc;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      color: #fff;
+    }
+  }
+  .verification-modal__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .new-oracle-button {
+      line-height: 22px;
+      padding: 11px;
+      border-radius: 14px;
+      color: #fff;
+      &.black {
+        background: #13121b;
+        color: #67639a;
+        &:hover {
+          background: #13121b;
+          box-shadow: none;
+        }
+      }
+    }
+  }
 }
 </style>

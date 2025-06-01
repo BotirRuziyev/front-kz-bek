@@ -293,14 +293,12 @@ export default class ChecksPage extends Vue {
   get filteredAndSortedChecks(): CheckItem[] {
     let result = [...this.allChecks]
 
-    // Filterlash
     if (this.filter === 'Claimed') {
       result = result.filter((item) => item.status === 'Claimed')
     } else if (this.filter === 'Unclaimed') {
       result = result.filter((item) => item.status === 'Unclaimed')
     }
 
-    // Sortlash
     if (this.sortDropdownType === 'sum') {
       result.sort((a, b) => {
         const aVal = parseFloat(

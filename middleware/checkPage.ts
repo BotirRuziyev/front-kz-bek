@@ -1,7 +1,7 @@
-export default function ({ route, app, redirect }: any) {
+export default function ({ route, app }: any) {
     const validRoutes = app.router?.options?.routes?.map((r: any) => r.path) || [];
 
     if (!validRoutes.includes(route.path)) {
-        return redirect('/404');
+        // return redirect('/404');
     }
 }

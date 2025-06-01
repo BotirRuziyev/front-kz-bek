@@ -1,25 +1,27 @@
 <template>
   <div class="fees">
-    <block-nav-back text="FEES" to="/moresettings" />
-    <ul class="fees-list">
-      <div
-        v-for="item in fees"
-        :key="item.id"
-        class="list-item"
-        :class="item.selected ? 'selected' : ''"
-        @click="selectedFees(item.id)"
-      >
-        {{ item.name }}
-      </div>
-    </ul>
-    <ul class="section-list">
-      <li v-for="(section, index) in sections" :key="index" class="list-item">
-        <h4 class="list-title">{{ section.title }}</h4>
-        <p class="list-description">
-          {{ section.description }}
-        </p>
-      </li>
-    </ul>
+    <div class="main-container">
+      <block-nav-back text="Fees" to="/moresettings" />
+      <ul class="fees-list">
+        <div
+          v-for="item in fees"
+          :key="item.id"
+          class="list-item"
+          :class="item.selected ? 'selected' : ''"
+          @click="selectedFees(item.id)"
+        >
+          {{ item.name }}
+        </div>
+      </ul>
+      <ul class="section-list">
+        <li v-for="(section, index) in sections" :key="index" class="list-item">
+          <h4 class="list-title">{{ section.title }}</h4>
+          <p class="list-description">
+            {{ section.description }}
+          </p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -28,34 +30,30 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class FeesPage extends Vue {
-  layout() {
-    return 'mobile'
-  }
-
   fees = [
     {
       id: 1,
-      name: 'Transfers',
+      name: 'Escrow',
       selected: true,
     },
     {
       id: 2,
-      name: 'Cards',
+      name: 'P2P',
       selected: false,
     },
     {
       id: 3,
-      name: 'Oracle pay',
+      name: 'Checks',
       selected: false,
     },
     {
       id: 4,
-      name: 'WhiteList',
+      name: 'Mixing',
       selected: false,
     },
     {
       id: 5,
-      name: 'Shops',
+      name: 'SWAP',
       selected: false,
     },
     {
@@ -103,31 +101,31 @@ export default class FeesPage extends Vue {
   sections = [
     {
       id: 1,
-      title: 'Section 1',
+      title: 'Your request',
       description:
         'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 2,
-      title: 'Section 1',
+      title: 'Your request',
       description:
         'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 3,
-      title: 'Section 1',
+      title: 'Your request',
       description:
         'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 4,
-      title: 'Section 1',
+      title: 'Your request',
       description:
         'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
     {
       id: 5,
-      title: 'Section 1',
+      title: 'Your request',
       description:
         'Lörem ipsum dekagönes patesade, pys tinde. Fest virad jude pogt huruvida bepreliga kroheten orad. Posere mirev ifall karibel bån. Multirylogi pokare, oaktat prejyskap är nyling i båna lasamma abelt. ',
     },
@@ -141,54 +139,57 @@ export default class FeesPage extends Vue {
 
 <style lang="scss">
 .fees {
+  padding-bottom: 24px;
   .fees-list {
-    width: calc(100% + 20px);
+    width: calc(100% + 32px);
     display: flex;
     align-items: stretch;
     gap: 8px;
     overflow-x: auto;
-    margin-left: -10px;
-    padding: 0 10px;
+    margin-left: -16px;
+    padding: 0 16px;
     margin-bottom: 30px;
     &::-webkit-scrollbar {
       display: none;
     }
     .list-item {
-      border: 1px solid transparent;
-      background: #121119;
+      background: #13121b;
       border-radius: 8px;
-      padding: 11px 18px;
+      padding: 10px 16px;
       cursor: pointer;
-      font-family: var(--third-family);
+      font-family: 'Roboto', sans-serif;
       white-space: nowrap;
-      font-weight: 700;
-      font-size: 13px;
-      line-height: 16px;
-      letter-spacing: 0.8px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 135%;
       text-align: center;
       color: #fff;
+      transition: 0.2s;
+      &:hover {
+        background: #2b2741;
+      }
       &.selected {
-        border-color: #f64e2a;
+        background: #f64e2a;
       }
     }
   }
   .section-list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
     .list-item {
+      padding: 12px 0;
       .list-title {
-        margin-bottom: 18px;
-        font-family: var(--font3);
-        font-weight: 700;
-        font-size: 16px;
+        margin-bottom: 8px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
         color: #fff;
       }
       .list-description {
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.5);
+        font-family: 'Inter', sans-serif;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 140%;
+        color: #fff;
       }
     }
   }

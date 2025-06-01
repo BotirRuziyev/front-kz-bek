@@ -7,7 +7,7 @@
     >
       <div class="select-value">
         <span v-if="selectedItems.length == 0" class="default-value">
-          Choose a cryptocurrency
+          Currency
         </span>
         <span v-else>
           <span
@@ -26,7 +26,7 @@
     <div class="select-menu" :class="{ show: isOpen }">
       <div v-for="option in data" :key="option.id" class="select-option">
         <button class="option-button" @click="addSelected(option.name)">
-          <div class="icon">
+          <div v-if="option.img" class="icon">
             <img :src="option.img" alt="" />
           </div>
           <p class="option-text">
@@ -62,19 +62,27 @@ export default class FormSelect extends Vue {
   @Prop({ default: () => [] }) data!: Item[]
 
   isOpen = false
-  selectedItems: string[] = []
+  selectedItems: string = ''
 
   addSelected(name: string) {
     this.data = this.data.map((item) => ({
       ...item,
-      selected: item.name === name ? !item.selected : item.selected,
+      selected: item.name === name,
     }))
-    const index = this.selectedItems.indexOf(name)
-    if (index !== -1) {
-      this.selectedItems.splice(index, 1)
-    } else {
-      this.selectedItems.push(name)
-    }
+
+    this.selectedItems = name
+    this.$emit('changed', this.selectedItems)
+
+    // this.data = this.data.map((item) => ({
+    //   ...item,
+    //   selected: item.name === name ? !item.selected : item.selected,
+    // }))
+    // const index = this.selectedItems.indexOf(name)
+    // if (index !== -1) {
+    //   this.selectedItems.splice(index, 1)
+    // } else {
+    //   this.selectedItems.push(name)
+    // }
   }
 
   mounted() {
@@ -100,20 +108,20 @@ export default class FormSelect extends Vue {
 .form-select {
   width: 100%;
   position: relative;
+  z-index: 4;
   .select-btn {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    background: #121119;
-    border-bottom: 1px solid #252334;
-    border-radius: 10px;
-    padding: 10px 12px 10px 14px;
+    background: #13121b;
+    border-radius: 12px;
+    padding: 12px;
     cursor: pointer;
     transition: 0.3s;
     &.active {
-      border-radius: 10px 10px 0 0;
+      border-radius: 12px 12px 0 0;
       .arrown-icon {
         transform: rotate(-270deg);
       }
@@ -127,16 +135,24 @@ export default class FormSelect extends Vue {
       &::-webkit-scrollbar {
         display: none;
       }
-      span {
-        font-family: var(--font-family);
+      .default-value {
+        font-family: 'Roboto', sans-serif;
         font-weight: 400;
-        font-size: 16px;
+        font-size: 14px;
+        line-height: 130%;
+        color: #67639a;
+      }
+      .selected-values {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
         color: #fff;
       }
     }
     .arrown-icon {
-      width: 21px;
-      height: 21px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -145,13 +161,16 @@ export default class FormSelect extends Vue {
 
       svg {
         height: 15px;
+        path {
+          stroke: #fff;
+        }
       }
     }
   }
   .select-menu {
     width: 100%;
     background: #121119;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 12px 12px;
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -187,9 +206,10 @@ export default class FormSelect extends Vue {
       }
       .option-text {
         width: 100%;
-        font-family: var(--font-family);
-        font-weight: 400;
-        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
         text-align: left;
         color: #fff;
       }

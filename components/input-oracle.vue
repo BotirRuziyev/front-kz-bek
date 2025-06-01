@@ -9,13 +9,16 @@
           :key="index"
           :ref="`input${index}`"
           v-model="values[index]"
-          :type="type"
+          type="tel"
+          inputmode="numeric"
           :disabled="disabled[index]"
+          :class="{ error_input: error }"
           maxlength="1"
           :placeholder="placeholder"
           @input="onInputChange(index)"
           @keydown.backspace="onBackspacePress(index, $event)"
         />
+        <span v-if="error" class="error-text">Wrong pin</span>
       </div>
       <input
         v-else
@@ -30,7 +33,7 @@
         :class="{ error_input: error }"
         @input="onChildChanged"
       />
-      <span v-if="error" class="error-text">Error text</span>
+      <span v-if="error && !ispin" class="error-text">Error text</span>
       <div
         v-if="type === 'password'"
         class="input-eye"
@@ -38,7 +41,7 @@
         @click="togglePassword"
       >
         <EyeIcon v-if="isPasswordVisible" />
-        <EyeOffIcon v-else />
+        <EyeIcon v-else />
       </div>
       <TrashIcon v-if="trashAction" class="input-trash-action" />
       <ScanIcon v-if="internalScan" class="input-scan-action" />
@@ -158,12 +161,20 @@ export default class InputOracle extends Vue {
   private internalSaved = this.saved
 
   onInputChange(index: number) {
-    if (this.values[index].trim() !== '' && index < 3) {
+    const val = this.values[index].replace(/\D/g, '').slice(0, 1)
+    this.values[index] = val
+
+    this.$emit('openPinCode', this.values)
+
+    // Agar input bo‘sh bo‘lmasa va oxirgi inputga yetilmagan bo‘lsa
+    if (val !== '' && index < this.values.length - 1) {
       this.disabled[index + 1] = false
+
       this.$nextTick(() => {
         const nextInput = this.$refs[`input${index + 1}`] as
           | HTMLInputElement
           | HTMLInputElement[]
+
         if (Array.isArray(nextInput)) {
           nextInput[0]?.focus()
         } else {
@@ -256,12 +267,13 @@ export default class InputOracle extends Vue {
 </script>
 <style lang="scss">
 .label {
-  margin-bottom: 10px;
-  font-family: 'Reza Zulmi Alfaizi Sans';
-  font-style: normal;
+  margin-bottom: 8px;
+  padding-left: 6px;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 130%;
+  color: #b2aaf9;
 }
 .input {
   display: flex;
@@ -398,17 +410,20 @@ export default class InputOracle extends Vue {
     height: 44px;
     background: #181720;
     border-radius: 12px;
+    border: 1px solid transparent;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 130%;
     color: #fff;
-    border: none;
     outline: none;
+    &:focus {
+      border-color: #67639a;
+    }
 
     &::placeholder {
       font-family: 'Roboto', sans-serif;
-      font-weight: 400;
+      font-weight: 500;
       font-size: 14px;
       line-height: 130%;
       color: #67639a;
@@ -436,18 +451,31 @@ export default class InputOracle extends Vue {
     color: #f64e2a;
   }
   .input-group-in {
-    max-width: 224px;
+    max-width: 276px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 20px;
     input {
-      font-family: var(--font-family);
+      height: 64px;
+      background: transparent;
+      border-radius: 20px;
+      border: 1px solid #2b2741;
+      font-family: 'Roboto', sans-serif;
       font-weight: 400;
-      font-size: 24px;
-      color: rgba(255, 255, 255, 0.4);
+      font-size: 28px;
       text-align: center;
+      line-height: 135%;
+      color: #fff;
+      &.error_input {
+        border-color: #f64e2a;
+        color: #f64e2a;
+        margin-bottom: 100px;
+      }
+      &:focus {
+        border-color: #f64e2a;
+      }
       &::placeholder {
         font-family: var(--font3);
         font-weight: 700;
@@ -459,6 +487,12 @@ export default class InputOracle extends Vue {
           opacity: 0;
         }
       }
+    }
+    .error-text {
+      left: 50%;
+      top: calc(100% - 50px);
+      transform: translateX(-50%);
+      font-weight: 500;
     }
   }
 }

@@ -44,8 +44,8 @@ export default class BlockNavBack extends Vue {
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  padding: 8px 0;
-  margin-bottom: 4px;
+  padding: 11px 0;
+  margin-bottom: 16px;
   position: relative;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
