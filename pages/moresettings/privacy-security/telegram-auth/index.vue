@@ -90,7 +90,15 @@
       </div>
       <div class="telegram-auth__button">
         <new-oracle-button text="Cancel" />
-        <new-oracle-button text="Next" color="yellow" />
+        <new-oracle-button
+          :to="
+            phoneInputMaxLength === phoneNumberRaw.length
+              ? '/moresettings/privacy-security/telegram-auth/pin-code'
+              : ''
+          "
+          text="Next"
+          color="yellow"
+        />
       </div>
     </div>
   </div>

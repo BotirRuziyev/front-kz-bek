@@ -1,15 +1,13 @@
 <template>
-  <div class="telegram-auth-code">
+  <div class="telegram-update">
     <div class="main-container">
       <block-nav-back
-        to="/moresettings/privacy-security"
-        text="Telegram Authorization"
+        to="/moresettings/privacy-security/telegram-auth"
+        text="Update Linked Telegram"
       />
-      <form action="#" class="telegram-auth-code-pin-form">
-        <h2 class="telegram-auth-code-title">
-          Verify Your Account via Telegram
-        </h2>
-        <p class="telegram-auth-code-description">
+      <form action="#" class="telegram-update-pin-form">
+        <h2 class="telegram-update-title">Verify Your Account via Telegram</h2>
+        <p class="telegram-update-description">
           Enter the code sent by our bot in Telegram <br />
           to complete Telegram account linking.
         </p>
@@ -20,7 +18,6 @@
           <new-oracle-button
             to="/moresettings/privacy-security"
             text="Go to Oracle OTP Bot"
-            :color="{ yellow: isOpenCode }"
             type="submit"
           />
         </div>
@@ -35,7 +32,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component({
   components: {},
 })
-export default class TelegramAuthPinCodePage extends Vue {
+export default class TelegramAuthUpdatePage extends Vue {
   isOpenCode = false
 
   enterPincode(event: Event) {
@@ -49,7 +46,7 @@ export default class TelegramAuthPinCodePage extends Vue {
 </script>
 
 <style lang="scss">
-.telegram-auth-code {
+.telegram-update {
   .main-container {
     min-height: 100vh;
     padding-bottom: 24px;
