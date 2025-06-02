@@ -10,12 +10,8 @@
           Currency
         </span>
         <span v-else>
-          <span
-            v-for="(name, i) in selectedItems"
-            :key="i"
-            class="selected-values"
-          >
-            {{ name }}
+          <span class="selected-values">
+            {{ selectedItems }}
           </span>
         </span>
       </div>
@@ -24,7 +20,7 @@
       </span>
     </button>
     <div class="select-menu" :class="{ show: isOpen }">
-      <div v-for="option in data" :key="option.id" class="select-option">
+      <div v-for="option in dataCopy" :key="option.id" class="select-option">
         <button class="option-button" @click="addSelected(option.name)">
           <div v-if="option.img" class="icon">
             <img :src="option.img" alt="" />
@@ -60,12 +56,14 @@ interface Item {
 })
 export default class FormSelect extends Vue {
   @Prop({ default: () => [] }) data!: Item[]
+  @Prop({ default: '' }) selectedVal!: ''
 
+  dataCopy: Item[] = this.data
   isOpen = false
-  selectedItems: string = ''
+  selectedItems: string = this.selectedVal
 
   addSelected(name: string) {
-    this.data = this.data.map((item) => ({
+    this.dataCopy = this.dataCopy.map((item) => ({
       ...item,
       selected: item.name === name,
     }))
@@ -87,6 +85,7 @@ export default class FormSelect extends Vue {
 
   mounted() {
     document.addEventListener('click', this.ClickOutside)
+    this.addSelected(this.selectedVal)
   }
 
   beforeDestroy() {

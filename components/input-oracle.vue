@@ -33,7 +33,7 @@
         :class="{ error_input: error }"
         @input="onChildChanged"
       />
-      <span v-if="error && !ispin" class="error-text">Error text</span>
+      <span v-if="error && !ispin" class="error-text">{{ errorMessage }}</span>
       <div
         v-if="type === 'password'"
         class="input-eye"
@@ -150,8 +150,10 @@ export default class InputOracle extends Vue {
   @Prop({ default: false }) readonly saved!: boolean
   @Prop({ default: false }) readonly external!: boolean
   @Prop({ default: null }) readonly trashAction?: Function
+  @Prop({ default: false }) restrictInput!: boolean
+  @Prop({ default: false }) error!: boolean
+  @Prop({ default: 'Error text' }) errorMessage!: ''
 
-  error = false
   value: string | number = ''
   isPasswordVisible = false
   values: string[] = ['', '', '', '']
@@ -236,7 +238,17 @@ export default class InputOracle extends Vue {
 
   @Watch('value')
   onChildChanged() {
-    if (this.value !== '' && this.external) {
+    let val = String(this.value)
+
+    if (this.restrictInput) {
+      const cleaned = val.replace(/[^a-zA-Z0-9._]/g, '')
+      if (cleaned !== val) {
+        val = cleaned
+        this.value = cleaned
+      }
+    }
+
+    if (val !== '' && this.external) {
       this.internalScan = false
       this.internalSaved = false
       this.internalClear = true
@@ -245,7 +257,8 @@ export default class InputOracle extends Vue {
       this.internalSaved = true
       this.internalClear = false
     }
-    this.$emit('changed', this.value)
+
+    this.$emit('changed', val)
   }
 
   get computedValue() {
@@ -307,11 +320,12 @@ export default class InputOracle extends Vue {
     z-index: 2;
   }
   &-eye {
+    height: 20px;
+    line-height: 0;
     position: absolute;
     cursor: pointer;
-    top: 50%;
+    top: 12px;
     right: 12px;
-    transform: translateY(-50%);
     z-index: 2;
   }
   &-edit-action {
@@ -417,6 +431,10 @@ export default class InputOracle extends Vue {
     line-height: 130%;
     color: #fff;
     outline: none;
+    &.error_input {
+      border-color: #f64e2a !important;
+      color: #f64e2a;
+    }
     &:focus {
       border-color: #67639a;
     }
@@ -445,8 +463,8 @@ export default class InputOracle extends Vue {
     top: calc(100% + 5px);
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 140%;
+    font-size: 14px;
+    line-height: 130%;
     text-align: center;
     color: #f64e2a;
   }

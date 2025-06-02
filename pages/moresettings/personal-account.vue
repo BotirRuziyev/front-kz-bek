@@ -13,9 +13,24 @@
       </div>
       <form class="personal-account__form">
         <div class="personal-account__form-group">
-          <input-oracle label="First name" type="text" v="Vakko" />
-          <input-oracle label="Last name" type="text" v="Niko" />
-          <input-oracle label="Username" type="text" v="Vakko_Design" />
+          <input-oracle
+            label="First name"
+            type="text"
+            :v="firstName"
+            :restrict-input="true"
+          />
+          <input-oracle
+            label="Last name"
+            type="text"
+            :v="lastName"
+            :restrict-input="true"
+          />
+          <input-oracle
+            label="Username"
+            type="text"
+            :v="username"
+            :restrict-input="true"
+          />
         </div>
         <new-oracle-button text="Confirm" color="yellow" />
       </form>
@@ -33,7 +48,11 @@ import UserIcon from '@/assets/svg/user-icon.svg?inline'
     UserIcon,
   },
 })
-export default class PersonalAccountPage extends Vue {}
+export default class PersonalAccountPage extends Vue {
+  username = 'Vakko'
+  firstName = 'Niko'
+  lastName = 'Vakko_Design'
+}
 </script>
 
 <style lang="scss">

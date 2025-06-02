@@ -190,8 +190,6 @@ export default class PaymentMethodsAddPage extends Vue {
       }
     }
   }
-  &-list {
-  }
   &-item {
     margin-right: -16px;
     padding: 16px 16px 16px 4px;
