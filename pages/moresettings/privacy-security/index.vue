@@ -13,7 +13,11 @@
         </div>
         <div class="privacy-security__group">
           <input-oracle type="password" label="Password" v="***********" />
-          <new-oracle-button class="update-btn" text="Update" />
+          <new-oracle-button
+            to="/moresettings/privacy-security/password"
+            class="update-btn"
+            text="Update"
+          />
         </div>
       </div>
       <ul class="privacy-security__list">
