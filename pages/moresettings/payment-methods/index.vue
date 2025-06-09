@@ -27,9 +27,12 @@
               </p>
             </div>
 
-            <button class="payment-methods__card-edit">
+            <nuxt-link
+              to="/moresettings/payment-methods/edit"
+              class="payment-methods__card-edit"
+            >
               <EditIcon />
-            </button>
+            </nuxt-link>
             <button
               class="payment-methods__card-delete"
               @click="deleteMethods(method.id)"

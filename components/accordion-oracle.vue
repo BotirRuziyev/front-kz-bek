@@ -185,5 +185,12 @@ export default class ActiveSessionAccordion extends Vue {
     line-height: 135%;
     color: #67639a;
   }
+  .new-oracle-button {
+    min-height: 36px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 135%;
+    color: #fff;
+  }
 }
 </style>
